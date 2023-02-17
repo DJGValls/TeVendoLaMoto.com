@@ -6,4 +6,13 @@ router.get("/", (req, res, next) => {
   res.render("index");
 });
 
+
+//RUTAS DE USUARIO
+const usersRoutes = require("./user.routes.js")
+router.use("/user",usersRoutes) 
+
+//RUTAS DE PRODUCTOS
+const productsRoutes = require("./product.routes.js")
+router.use("/product",productsRoutes) 
+
 module.exports = router;
