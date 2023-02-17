@@ -26,7 +26,6 @@ router.post("/create-product" , async (req,res,next)=>{
         })
 
         console.log(response)
-
         res.redirect("/product")
 
     } catch (error) {
