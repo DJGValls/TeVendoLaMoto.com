@@ -13,9 +13,6 @@ router.use("/user", vendedorRoutes)
 
 
 
-
-
-
 // RUTAS DE PRODUCTOS
 const productsRoutes = require("./product.routes.js")
 router.use("/product",productsRoutes) 
