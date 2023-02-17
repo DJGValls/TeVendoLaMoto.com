@@ -7,12 +7,15 @@ router.get("/", (req, res, next) => {
 });
 
 
-//RUTAS DE USUARIO
-const usersRoutes = require("./user.routes.js")
-router.use("/user",usersRoutes) 
+// //RUTAS DE USUARIO
+// const usersRoutes = require("./user.routes.js")
+// router.use("/user",usersRoutes) 
 
 //RUTAS DE PRODUCTOS
-const productsRoutes = require("./product.routes.js")
-router.use("/product",productsRoutes) 
+// const productsRoutes = require("./product.routes.js")
+// router.use("/product",productsRoutes) 
+
+const authRoutes = require("./auth.routes.js")
+router.use("/auth", authRoutes);
 
 module.exports = router;
