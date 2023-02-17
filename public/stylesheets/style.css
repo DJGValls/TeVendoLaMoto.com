@@ -1,5 +1,6 @@
 body {
-  padding: 50px;
+  margin: 0px;
+  padding: 10px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -9,4 +10,32 @@ a {
 
 h1 {
   color: 15px;
+}
+
+#content-nav{
+  display: flex;
+  justify-content: row;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+#container-product{
+  display: flex;
+  justify-content: row;
+  gap: 30px;
+}
+
+#product{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: lightblue;
+  border: solid 2px black;
+  border-radius: 15px;
+  padding: 5px;
+}
+
+#container-vendedor{
+  display: flex;
+  flex-direction: row;
 }
