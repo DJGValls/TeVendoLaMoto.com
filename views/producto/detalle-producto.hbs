@@ -1,32 +1,12 @@
+{{!-- <img class="card-img-top" src="{{details.image}}" alt="cover" width="100px"> --}}
 
+<div class="card-body">
 
-    {{!-- <img class="card-img-top" src="{{details.image}}" alt="cover" width="100px"> --}}
+  <h1>{{oneProduct.nombre}}</h1>
+  {{!-- <h3>Autor: {{details.author.name}} de {{details.author.country}}</h3> --}}
+  <h3>{{oneProduct.precio}}</h3>
+  <p>{{oneProduct.descripcion}}</p>
+  <p>{{oneProduct.vendedor}}</p>
+  <br />
 
-
-    <div class="card-body">
-
-
-        <h1>{{oneProduct.nombre}}</h1>
-        {{!-- <h3>Autor: {{details.author.name}} de {{details.author.country}}</h3> --}}
-        <h3>{{oneProduct.precio}}</h3>
-        <p>{{oneProduct.precio}}</p>
-        <p>{{oneProduct.vendedor}}</p>
-        <br>
-
-
-        {{!-- BOTON DE BORRAR Y ACTUALIZAR PARA EL VENDEDOR  --}}
-        {{!-- <div class="d-flex justify-content-center">
-
-             <a href="/book/{{details._id}}/edit">
-            <button class="btn btn-info">Actualizar Info.</button>
-            </a>
-
-            <form action="/book/{{details._id}}/delete" method="post">
-            <button class="btn btn-danger">Borrar</button>
-            </form>
-
-        </div> --}}
-       
-    </div>
-    
-
+</div>

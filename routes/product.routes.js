@@ -4,8 +4,6 @@ const router = express.Router();
 
 const Product = require("../models/Product.model.js");
 
-
-
 // GET => renderiza la vista del formulario de creacion de un producto
 router.get("/create-product", (req, res, next) => {
   res.render("producto/nuevo-producto-form.hbs");
@@ -33,19 +31,47 @@ router.post("/create-product", async (req, res, next) => {
 });
 
 //GET => renderiza una vista del detalle del producto
-router.get("/:productId/details", async(req,res,next)=>{
-    
-    
-    try {
-        const{ productId } = req.params
+router.get("/:productId/details", async (req, res, next) => {
+  try {
+    const { productId } = req.params;
 
-        const response = await Product.findById(productId)
-        res.render("producto/detalle-producto.hbs", {
-            oneProduct: response
+    const response = await Product.findById(productId);
+    res.render("producto/detalle-producto.hbs", {
+      oneProduct: response,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//GET => renderiza el formulario para editar el producto
+router.get("/:productId/edit", async (req, res, next) => {
+  try {
+    const { productId } = req.params;
+    const detailProduct = await Product.findById(productId);
+    res.render("producto/edit-producto.hbs", detailProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//POST => Actualiza los datos en la base de dato
+router.post("/:productId/edit" , async(req,res,next)=>{
+
+    const {productId} = req.params
+    const {nombre,precio,descripcion} = req.body
+    try {
+        const response =  await Product.findByIdAndUpdate(productId, {
+            nombre: nombre,
+            precio: precio,
+            descripcion: descripcion
         })
-        
+
+        res.redirect(`/product/${productId}/details`)
+
     } catch (error) {
-        next (error)
+        next(error)
     }
+
 })
 module.exports = router;
