@@ -1,22 +1,37 @@
-{{!-- <h2>Pagina de Perfil privado del VENDEDOR</h2> --}}
-
+{{! <h2>Pagina de Perfil privado del VENDEDOR</h2> }}
 
 <div id="container-vendedor">
 
-    {{!-- Contenedor Mensajes de clientes --}}
-    <div>
-        {{!-- Bucle de mensajes --}}
-        <h1>Bucle de mensajes de clientes</h1>
+  {{! Contenedor Mensajes de clientes }}
+  <div>
+    {{! Bucle de mensajes }}
+    <h1>Bucle de mensajes de clientes</h1>
 
-    </div>
+  </div>
 
+  {{! contenedor de perfil }}
+   <div id="container-product">
 
+    {{#each allProduct}}
+      <div id="product">
+          {{!-- <img src="/images/IA.jpg" alt="IA" width="100px"> --}}
+          <br>
+          <h3>{{this.nombre}}</h3>
+          <h5>{{this.precio}}</h2>
+          <br>
+          <p>{{this.descripcion}}</p>
+          <div class="d-flex justify-content-center">
+            <a href="/product/{{this._id}}/edit">
+            <button class="btn btn-info">Editar</button>
+            </a>
+            <form action="/product/{{this._id}}/delete" method="post">
+            <button class="btn btn-danger">Borrar</button>
+            </form>
+          </div>
+        </div>
+      {{/each}}
+   </div> 
 
-    {{!-- contenedor de perfil --}}
-    <div>
-        <h1>Bucle de productos</h1>
-        
-        <a href="/product/create-product"><button>Añadir producto</button></a>
-    </div>
-
+    <a href="/product/create-product"><button>Añadir producto</button></a>
+  
 </div>
