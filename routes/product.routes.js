@@ -23,7 +23,7 @@ router.post("/create-product", async (req, res, next) => {
       // img: req.body.ult
     });
 
-    console.log(response);
+    
     res.redirect("/user/perfVendedor");
   } catch (error) {
     next(error);
@@ -74,4 +74,20 @@ router.post("/:productId/edit" , async(req,res,next)=>{
     }
 
 })
+
+//POST => Elimina producto de la base de datos
+router.post("/:productId/delete", async(req,res,next)=>{
+
+    const {productId} = req.params
+
+    try {
+        await Product.findByIdAndDelete(productId)
+        res.redirect("/user/perfVendedor")
+    } catch (error) {
+        next (error)
+    }
+})
+
+
+
 module.exports = router;
