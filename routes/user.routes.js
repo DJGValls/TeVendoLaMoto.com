@@ -9,7 +9,7 @@ const Product = require("../models/Product.model.js")
 router.get("/perfVendedor" , async(req,res,next)=>{
 
     const response = await Product.find();
-    console.log(response)
+    
     res.render("vendedor/perfil-privado.hbs",{
       allProduct: response
     })
