@@ -2,12 +2,17 @@ const express = require("express");
 const router = express.Router();
 
 const User = require("../models/User.model.js");
-
+const Product = require("../models/Product.model.js")
 
 
 // GET => renderiza vista de perfil de vendedor
-router.get("/perfVendedor" , (req,res,next)=>{
-    res.render("vendedor/perfil-privado.hbs")
+router.get("/perfVendedor" , async(req,res,next)=>{
+
+    const response = await Product.find();
+    console.log(response)
+    res.render("vendedor/perfil-privado.hbs",{
+      allProduct: response
+    })
 })
 
 // GET "/auth/logout" => cerrar/destruir la sesión del usuario
