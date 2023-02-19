@@ -27,14 +27,11 @@ const userSchema = new Schema(
     cif:{
       type: Number,
       trim: true,
-      // require: true,
-      unique: true,
       default:undefined
     },
     telefono: {
       type: Number,
       trim: true,
-      // require: true,
       default:undefined,
     }
   },

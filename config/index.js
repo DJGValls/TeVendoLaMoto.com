@@ -17,6 +17,9 @@ const favicon = require("serve-favicon");
 // https://www.npmjs.com/package/path
 const path = require("path");
 
+const session = require("express-session")
+const MongoStore = require('connect-mongo');
+
 // Middleware configuration
 module.exports = (app) => {
   // In development environment the app logs
@@ -36,4 +39,18 @@ module.exports = (app) => {
 
   // Handles access to the favicon
   app.use(favicon(path.join(__dirname, "..", "public", "images", "favicon.ico")));
+
+  app.use(session({
+    secret: process.env.SESSION_SECRET, // palabra secreta que encripta la cookie
+    resave: false,
+    saveUninitialized: false, // esto evita agregar sesiones vacias
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 1 // 1 dia de duracion de la cookie
+    },
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/TeVendoLaMoto",
+      ttl: 60 * 60 * 24 * 1 // 1 dia de duración de la sesion activa
+    })
+  }))
+
 };

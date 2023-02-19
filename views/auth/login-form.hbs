@@ -1,1 +1,27 @@
-<h2>Pagina de Inicio de Sesión</h2>
+<div>
+
+  <h2>Formulario de Acceso</h2>
+
+  <form action="/auth/login" method="post">
+
+
+    <label for="email">Correo Electronico:</label>
+    <input type="text" name="email">
+
+    <br>
+
+    <label for="password">Contraseña:</label>
+    <input type="text" name="password">
+
+    <br>
+
+    {{#if this.errorMessage}}
+      <p class="error">{{this.errorMessage}}</p>
+    {{/if}}
+
+    <button>Acceder</button>
+
+
+  </form>
+
+</div>
