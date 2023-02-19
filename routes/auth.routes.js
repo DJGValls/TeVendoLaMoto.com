@@ -3,52 +3,69 @@ const router = express.Router();
 
 const User = require("../models/User.model.js");
 const bcrypt = require("bcryptjs");
-const {isLoggedIn, isCliente, isVendedor} = require("../middlewares/auth-middleware.js")
+const {
+  isLoggedIn,
+  isCliente,
+  isVendedor,
+} = require("../middlewares/auth-middleware.js");
 
 // GET "/auth/signup" pagina de registro de vendedor
-router.get("/signup/vendedor", isLoggedIn, isVendedor, (req, res, next) => {
-  res.render("auth/vendedor-signup-form.hbs");
-});
+router.get(
+  "/signup/vendedor/:userId",
+  isLoggedIn,
+  isVendedor,
+  async (req, res, next) => {
+    try {
+      const foundVendedor = await User.findById(req.params.userId);
+      res.render("auth/vendedor-signup-form.hbs", {
+        userVendedor: foundVendedor,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 // POST "/auth/signup" enviar registro de vendedor
-router.post("/signup/vendedor", isLoggedIn, isVendedor, async (req, res, next) => {
-  // console.log(req.body);
-  const {cif, telefono} = req.body;
-  // VALIDACIONES
-  // validación de campos completos
-  if (cif === "" || telefono === "") {
-    res.status(401).render("auth/vendedor-signup-form.hbs", {
-      errorMessage: "Por favor, Todos los campos deben estar llenos",
-    });
-    return;
-  }
-
-  try {
-    // validacion de cif existente
-    const foundUserCif = await User.findOne({ cif: cif });
-    if (foundUserCif !== null) {
-      res.render("auth/vendedor-signup-form.hbs", {
-        errorMessage: "Cif ya existe",
+router.post(
+  "/signup/vendedor/:userId",
+  isLoggedIn,
+  isVendedor,
+  async (req, res, next) => {
+    // console.log(req.body);
+    const { cif, telefono } = req.body;
+    // VALIDACIONES
+    // validación de campos completos
+    if (cif === "" || telefono === "") {
+      res.status(401).render("auth/vendedor-signup-form.hbs", {
+        errorMessage: "Por favor, Todos los campos deben estar llenos",
       });
       return;
     }
-    
-    
 
-    // CREAMOS UN USUARIO
-    await User.create({
-      username: username,
-      email: email,
-      password: hashPassword,
-      role: role,
-    });
-    
-    
+    try {
+      // validacion de cif existente
+      const foundUserCif = await User.findOne({ cif: cif });
+      if (foundUserCif !== null) {
+        res.render("auth/vendedor-signup-form.hbs", {
+          errorMessage: "Cif ya existe",
+        });
+        return;
+      }
 
-  } catch (err) {
-    next(err);
+      // CREAMOS UN USUARIO con un Update
+      await User.findByIdAndUpdate(req.params.userId, {
+        cif,
+        telefono,
+      });
+      req.session.destroy(() => {
+        res.redirect("/");
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 // GET "/auth/signup" pagina de registro de usuario
 router.get("/signup", (req, res, next) => {
@@ -95,7 +112,7 @@ router.post("/signup", async (req, res, next) => {
       res.render("auth/usuario-signup-form.hbs", {
         errorMessage: "El correo electronico está en uso",
       });
-      return; 
+      return;
     }
     //encriptacion de password
     const salt = await bcrypt.genSalt(12);
@@ -108,16 +125,15 @@ router.post("/signup", async (req, res, next) => {
       password: hashPassword,
       role: role,
     });
-    
-    const foundVendedor = await User.findOne({email})
+
+    const foundVendedor = await User.findOne({ email });
     console.log(foundVendedor);
     if (foundVendedor.role === "Vendedor") {
       req.session.activeUser = foundVendedor;
       req.session.save(() => {
-        res.redirect("/auth/signup/vendedor");
+        res.redirect(`/auth/signup/vendedor/${foundVendedor._id}`);
       });
     } else res.redirect("/");
-
   } catch (err) {
     next(err);
   }
@@ -139,51 +155,50 @@ router.post("/login", async (req, res, next) => {
     res.render("auth/login-form.hbs", {
       errorMessage: "Todos los campos deben estar llenos",
     });
-    return; 
+    return;
   }
 
   try {
     // validacion usuario existe en la DB
-    const foundUser = await User.findOne({email: email})
+    const foundUser = await User.findOne({ email: email });
     if (foundUser === null) {
       res.render("auth/login-form.hbs", {
         errorMessage: "Usuario no registrado con ese correo electronico",
       });
-      return; 
+      return;
     }
 
     // validacion contraseña
-    const isPasswordCorrect = await bcrypt.compare(password, foundUser.password)
-    console.log("isPasswordCorrect", isPasswordCorrect)
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      foundUser.password
+    );
+    console.log("isPasswordCorrect", isPasswordCorrect);
     if (isPasswordCorrect === false) {
       res.render("auth/login-form.hbs", {
         errorMessage: "Contraseña incorrecta, vuelva a intentarlo",
       });
-      return; 
+      return;
     }
-    // activar una sesión 
+    // activar una sesión
     req.session.activeUser = foundUser; // crea la sesión en la BD y envía la cookie (copia de sesión encriptada) al usuario
     // automaticamente, en TODAS las rutas vamos a tener accedo a req.session.activeUser => siempre nos dará el usuario que hace la llamada
     req.session.save(() => {
       // espera a que se haya creado la sesión en la DB correctamente y luego...
       if (foundUser.role === "Cliente") {
         res.render("cliente/perfil-privado.hbs");
-    } else res.render("vendedor/perfil-privado.hbs");
-    })
-
-  } catch(err) {
-    next(err)
+      } else res.render("vendedor/perfil-privado.hbs");
+    });
+  } catch (err) {
+    next(err);
   }
-
 });
 
 // GET "/auth/logout" => cerrar/destruir la sesión del usuario
-router.get("/logout", (req, res, next) => {
-
+router.get("/logout", isLoggedIn, (req, res, next) => {
   req.session.destroy(() => {
-    res.redirect("/")
-  })
-
-})
+    res.redirect("/");
+  });
+});
 
 module.exports = router;

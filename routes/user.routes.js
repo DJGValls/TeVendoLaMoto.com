@@ -7,7 +7,7 @@ const {isLoggedIn, isCliente, isVendedor} = require("../middlewares/auth-middlew
 
 
 // GET => renderiza vista de perfil de vendedor
-router.get("/perfVendedor" , async(req,res,next)=>{
+router.get("/perfVendedor", isLoggedIn, isVendedor, async(req,res,next)=>{
 
     const response = await Product.find();
     
@@ -17,7 +17,7 @@ router.get("/perfVendedor" , async(req,res,next)=>{
 })
 
 // GET => renderiza vista de formulario de update de vendedor
-router.get("/perfVendedor/update" ,(req,res,next)=>{
+router.get("/perfVendedor/update", isLoggedIn, isVendedor, (req,res,next)=>{
   res.render("vendedor/update-vendedor-form.hbs")
 })
 
@@ -27,7 +27,7 @@ router.get("/perfCliente", isLoggedIn, isCliente, (req,res,next)=>{
 })
 
 // GET => renderiza vista de formulario de update de cliente
-router.get("/perfCliente/update" ,(req,res,next)=>{
+router.get("/perfCliente/update", isLoggedIn, isCliente, (req,res,next)=>{
   res.render("cliente/update-cliente-form.hbs")
 })
 
