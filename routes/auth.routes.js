@@ -24,6 +24,8 @@ router.get(
       next(error);
     }
   }
+
+
 );
 
 // POST "/auth/signup" enviar registro de vendedor
@@ -61,6 +63,8 @@ router.post(
       req.session.destroy(() => {
         res.redirect("/");
       });
+
+      
     } catch (err) {
       next(err);
     }

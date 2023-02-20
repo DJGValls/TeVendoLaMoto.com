@@ -30,7 +30,23 @@ router.get("/perfCliente/update", isLoggedIn, isCliente, (req,res,next)=>{
   res.render("cliente/update-cliente-form.hbs")
 })
 
+//POST => Elimina un usuario de la BD
+router.post("/:idUser" , isLoggedIn, async (req,res,next)=>{
 
+  const {idUser} = req.params
+
+  try {
+
+    await User.findByIdAndDelete(idUser)
+    req.session.destroy(() => {
+      res.redirect("/auth/signup");
+    })  
+    
+  } catch (error) {
+    next (error)
+  }
+
+})
   
 
 
