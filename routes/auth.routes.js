@@ -16,7 +16,7 @@ router.get(
   isVendedor,
   async (req, res, next) => {
     try {
-      const foundVendedor = await User.findById(req.params.userId);
+      const foundVendedor = await User.findById(req.session.activeUser._id);
       res.render("auth/vendedor-signup-form.hbs", {
         userVendedor: foundVendedor,
       });
@@ -36,14 +36,35 @@ router.post(
   async (req, res, next) => {
     // console.log(req.body);
     const { cif, telefono } = req.body;
+
     // VALIDACIONES
+
     // validación de campos completos
     if (cif === "" || telefono === "") {
       res.status(401).render("auth/vendedor-signup-form.hbs", {
         errorMessage: "Por favor, Todos los campos deben estar llenos",
       });
       return;
+    }  
+
+    // Validacion CIF
+    const CIF_REGEX = /^([ABCDEFGHJKLMNPQRSUVW])(\d{7})([0-9A-J])$/;
+    if (CIF_REGEX.test(cif) === false) {
+      res.status(401).render("auth/vendedor-signup-form.hbs", {
+      errorMessage:
+      "El cif debe tener minimo 9 caracteres y el primero de ellos debe ser una letra",
+    });
+      return;
     }
+
+    // //Validacion Teléfono
+    // const TLF_REGEX = /\+?(\s*\d{0,2})()\1[1234567890]{0,2}\2[1234567890 .-]{9,13}/;
+    // if(TLF_REGEX.test(telefono) === false){
+    //   res.status(401).render("auth/vendedor-signup-form.hbs", {
+    //     errorMessage: "El teléfono debe comenzar por +34 y tener 9 números."
+    //   });
+    //   return;
+    // }
 
     try {
       // validacion de cif existente
@@ -60,11 +81,9 @@ router.post(
         cif,
         telefono,
       });
-      req.session.destroy(() => {
-        res.redirect("/");
-      });
+    
+      res.redirect("/user/perfVendedor")
 
-      
     } catch (err) {
       next(err);
     }
@@ -130,14 +149,21 @@ router.post("/signup", async (req, res, next) => {
       role: role,
     });
 
-    const foundVendedor = await User.findOne({ email });
-    console.log(foundVendedor);
-    if (foundVendedor.role === "Vendedor") {
-      req.session.activeUser = foundVendedor;
+    const foundTypeUser = await User.findOne({ email });
+    console.log(foundTypeUser);
+    if (foundTypeUser.role === "Vendedor") {
+      req.session.activeUser = foundTypeUser;
       req.session.save(() => {
-        res.redirect(`/auth/signup/vendedor/${foundVendedor._id}`);
+        res.redirect(`/auth/signup/vendedor/${foundTypeUser._id}`);
       });
-    } else res.redirect("/");
+    } else {
+      req.session.activeUser = foundTypeUser;
+      req.session.save(() => {
+        res.redirect(`/user/perfCliente/${foundTypeUser._id}`);
+      });
+    }
+      
+      
   } catch (err) {
     next(err);
   }
@@ -191,7 +217,7 @@ router.post("/login", async (req, res, next) => {
       // espera a que se haya creado la sesión en la DB correctamente y luego...
       if (foundUser.role === "Cliente") {
         res.redirect(`/user/perfCliente/${foundUser._id}`);
-      } else res.redirect(`/user/perfVendedor/${foundUser._id}`);
+      } else res.redirect(`/perfVendedor/${foundUser._id}`);
     });
   } catch (err) {
     next(err);
