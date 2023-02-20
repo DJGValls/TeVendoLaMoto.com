@@ -1,3 +1,7 @@
+
+//! PONER UN MIDDLEWARE QUE COMPRUEBA SI EL VENDEDOR TIENE EN LA BASE DE DATOS CIF Y TELEFONO PARA PODER ACCEDER A LAS RUTAS PRIVADAS COMO LA DE PERFIL
+
+
 // verificar si está logeado
 const isLoggedIn = (req, res, next) => {
   if (req.session.activeUser === undefined) {
