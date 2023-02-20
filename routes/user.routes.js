@@ -17,18 +17,50 @@ router.get("/perfVendedor", isLoggedIn, isVendedor, async(req,res,next)=>{
 
 // GET => renderiza vista de formulario de update de vendedor
 router.get("/perfVendedor/update", isLoggedIn, isVendedor, (req,res,next)=>{
+  
   res.render("vendedor/update-vendedor-form.hbs")
 })
 
-// GET => renderiza vista de formulario cliente
-router.get("/perfCliente", isLoggedIn, isCliente, (req,res,next)=>{
-  res.render("cliente/perfil-privado.hbs")
+// GET => renderiza vista de perfil cliente
+router.get("/perfCliente/:idCliente", isLoggedIn, isCliente, async(req,res,next)=>{
+
+  try {
+    const idCliente = await User.findById(req.params.idCliente)
+    res.render("cliente/perfil-privado.hbs" , idCliente)
+   
+    
+  } catch (error) {
+    next (error)
+  }
 })
 
 // GET => renderiza vista de formulario de update de cliente
-router.get("/perfCliente/update", isLoggedIn, isCliente, (req,res,next)=>{
-  res.render("cliente/update-cliente-form.hbs")
+router.get("/perfCliente/update/:idUser", isLoggedIn, isCliente, async(req,res,next)=>{
+  try {
+    
+    const user = await User.findById(req.params.idUser)
+
+    res.render("cliente/update-cliente-form.hbs" , user)
+    
+  } catch (error) {
+    next (error)
+  }
 })
+
+//POST => Actualiza datos del cliente en el BD
+router.post("/perfCliente/update/:idUser", isLoggedIn,isCliente, async(req,res,next)=>{
+
+  try {
+
+    const idCliente = await User.findByIdAndUpdate(req.params.idUser)
+    res.redirect("/perfCliente" , idCliente)
+    
+  } catch (error) {
+    next (error)
+  }
+
+
+} )
 
 //POST => Elimina un usuario de la BD
 router.post("/:idUser" , isLoggedIn, async (req,res,next)=>{
@@ -47,7 +79,8 @@ router.post("/:idUser" , isLoggedIn, async (req,res,next)=>{
   }
 
 })
-  
+
+
 
 
   module.exports = router;
