@@ -8,6 +8,9 @@ const Product = require("../models/Product.model.js")
 const {isLoggedIn, isCliente, isVendedor} = require("../middlewares/auth-middleware.js")
 
 
+//! PONER UN MIDDLEWARE QUE COMPRUEBA SI EL VENDEDOR TIENE EN LA BASE DE DATOS CIF Y TELEFONO PARA PODER ACCEDER A LAS RUTAS PRIVADAS COMO LA DE PERFIL
+
+
 // GET => renderiza vista de perfil de vendedor
 router.get("/perfVendedor", isLoggedIn, isVendedor, async(req,res,next)=>{
 

@@ -25,7 +25,7 @@ const userSchema = new Schema(
       default: "Cliente"
     },
     cif:{
-      type: Number,
+      type: String,
       trim: true,
       default:undefined
     },

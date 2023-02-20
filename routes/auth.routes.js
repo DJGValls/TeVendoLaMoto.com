@@ -11,7 +11,7 @@ const {
 
 // GET "/auth/signup" pagina de registro de vendedor
 router.get(
-  "/signup/vendedor/:userId",
+  "/signup/vendedor/",
   isLoggedIn,
   isVendedor,
   async (req, res, next) => {
@@ -28,9 +28,10 @@ router.get(
 
 );
 
+// ! NO HABIAMOS QUITADO EL USERID DEL POST Y SEGUIA ESPERANDOLO
 // POST "/auth/signup" enviar registro de vendedor
 router.post(
-  "/signup/vendedor/:userId",
+  "/signup/vendedor/",
   isLoggedIn,
   isVendedor,
   async (req, res, next) => {
@@ -56,15 +57,15 @@ router.post(
     });
       return;
     }
-
-    // //Validacion Teléfono
-    // const TLF_REGEX = /\+?(\s*\d{0,2})()\1[1234567890]{0,2}\2[1234567890 .-]{9,13}/;
-    // if(TLF_REGEX.test(telefono) === false){
-    //   res.status(401).render("auth/vendedor-signup-form.hbs", {
-    //     errorMessage: "El teléfono debe comenzar por +34 y tener 9 números."
-    //   });
-    //   return;
-    // }
+ 
+    //Validacion Teléfono
+    const TLF_REGEX = /\+?(\s*\d{0,2})()\1[1234567890]{0,2}\2[1234567890 .-]{9,13}/;
+    if(TLF_REGEX.test(telefono) === false){
+      res.status(401).render("auth/vendedor-signup-form.hbs", {
+        errorMessage: "El teléfono debe comenzar por +34 y tener 9 números."
+      });
+      return;
+    }
 
     try {
       // validacion de cif existente
@@ -154,7 +155,7 @@ router.post("/signup", async (req, res, next) => {
     if (foundTypeUser.role === "Vendedor") {
       req.session.activeUser = foundTypeUser;
       req.session.save(() => {
-        res.redirect(`/auth/signup/vendedor/${foundTypeUser._id}`);
+        res.redirect(`/auth/signup/vendedor`);
       });
     } else {
       req.session.activeUser = foundTypeUser;
