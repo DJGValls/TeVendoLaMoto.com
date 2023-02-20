@@ -10,8 +10,7 @@ const {isLoggedIn, isCliente, isVendedor} = require("../middlewares/auth-middlew
 router.get("/perfVendedor", isLoggedIn, isVendedor, async(req,res,next)=>{
 
     const response = await Product.find();
-    
-    res.render("vendedor/perfil-privado.hbs",{
+        res.render("vendedor/perfil-privado.hbs",{
       allProduct: response
     })
 })
