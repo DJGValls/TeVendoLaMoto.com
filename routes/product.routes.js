@@ -3,14 +3,19 @@ const router = express.Router();
 // const uploader = require("../middlewares/cloudinary.js")
 
 const Product = require("../models/Product.model.js");
+const {
+  isLoggedIn,
+  isCliente,
+  isVendedor,
+} = require("../middlewares/auth-middleware.js");
 
 // GET => renderiza la vista del formulario de creacion de un producto
-router.get("/create-product", (req, res, next) => {
+router.get("/create-product", isLoggedIn, isVendedor, (req, res, next) => {
   res.render("producto/nuevo-producto-form.hbs");
 });
 
 // POST => Crea un producto en la DB
-router.post("/create-product", async (req, res, next) => {
+router.post("/create-product", isLoggedIn, isVendedor, async (req, res, next) => {
   const { nombre, precio, descripcion, vendedor, img } = req.body;
   // console.log(req.file.path); //=> NOS MUESTRA LA URL DE LA IMAGEN DE CLOUDINARY
 
@@ -31,7 +36,7 @@ router.post("/create-product", async (req, res, next) => {
 });
 
 //GET => renderiza una vista del detalle del producto
-router.get("/:productId/details", async (req, res, next) => {
+router.get("/:productId/details", isLoggedIn, async (req, res, next) => {
   try {
     const { productId } = req.params;
 
@@ -45,7 +50,7 @@ router.get("/:productId/details", async (req, res, next) => {
 });
 
 //GET => renderiza el formulario para editar el producto
-router.get("/:productId/edit", async (req, res, next) => {
+router.get("/:productId/edit", isLoggedIn, isVendedor, async (req, res, next) => {
   try {
     const { productId } = req.params;
     const detailProduct = await Product.findById(productId);
@@ -56,7 +61,7 @@ router.get("/:productId/edit", async (req, res, next) => {
 });
 
 //POST => Actualiza los datos en la base de dato
-router.post("/:productId/edit" , async(req,res,next)=>{
+router.post("/:productId/edit" , isLoggedIn, isVendedor, async(req,res,next)=>{
 
     const {productId} = req.params
     const {nombre,precio,descripcion} = req.body
@@ -76,7 +81,7 @@ router.post("/:productId/edit" , async(req,res,next)=>{
 })
 
 //POST => Elimina producto de la base de datos
-router.post("/:productId/delete", async(req,res,next)=>{
+router.post("/:productId/delete", isLoggedIn, isVendedor, async(req,res,next)=>{
 
     const {productId} = req.params
 
