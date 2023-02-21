@@ -1,0 +1,33 @@
+<h2>Pagina de registro de usuarios vendedores</h2>
+{{!-- 
+
+    <label for="username">Nombre de empresa: {{userVendedor.username}}</label>
+    <input type="text" name="username" value="{{userVendedor.username}}">
+    <br>
+    <label for="email">Correo Electronico: {{userVendedor.email}}</label>
+    <input type="text" name="email" value="{{userVendedor.email}}"> --}}
+
+
+
+<form action="/auth/signup/vendedor" method="post">
+    
+    <label for="cif">CIF</label>
+    <input type="text" name="cif" value="{{userVendedor.cif}}">
+    <br>
+    <label for="telefono">Telefono de Contacto</label>
+    <input type="number" name="telefono" value="{{userVendedor.telefono}}">
+    <br>
+    <button>Registrar</button>
+    <br>
+    {{#if this.errorMessage}}
+        <p>{{this.errorMessage}}</p>
+    {{/if}}
+    <p></p>
+
+</form>
+
+
+
+<form action= "/user/{{userVendedor._id}}" method="post" >
+   <button>Atras</button>
+</form>
