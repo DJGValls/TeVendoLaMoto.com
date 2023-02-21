@@ -1,6 +1,6 @@
 <h2>formulario de update de datos de cliente</h2>
 
-<form action="/user/perfCliente/update/{{_id}}" method="post">
+<form action="/user/perfCliente/update" method="post">
     <label for="username">Nombre de Usuario</label>
     <input type="text" name="username" value="{{username}}">
     <br>
@@ -11,6 +11,11 @@
     <input type="text" name="password">
     <br>
     
+
+    {{#if this.errorMessage}}
+      <p class="error">{{this.errorMessage}}</p>
+    {{/if}}
+    
     
     <br>
     <button>Actualizar</button>
@@ -19,7 +24,7 @@
 
 </form>
 
-    <form action= "/user/delete/{{_id}}" method="post" >
+    <form action= "/user/delete" method="post" >
         <button>Eliminar Usuario</button>
     </form>
 

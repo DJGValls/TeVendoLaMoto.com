@@ -25,10 +25,10 @@ router.get("/perfVendedor/update", isLoggedIn, isVendedor, (req,res,next)=>{
 })
 
 // GET => renderiza vista de perfil cliente
-router.get("/perfCliente/:idCliente", isLoggedIn, isCliente, async(req,res,next)=>{
+router.get("/perfCliente/", isLoggedIn, isCliente, async(req,res,next)=>{
 
   try {
-    const idCliente = await User.findById(req.params.idCliente)
+    const idCliente = await User.findById(req.session.activeUser._id)
     res.render("cliente/perfil-privado.hbs" , {idCliente})
    
     
@@ -38,10 +38,11 @@ router.get("/perfCliente/:idCliente", isLoggedIn, isCliente, async(req,res,next)
 })
 
 // GET => renderiza vista de formulario de update de cliente
-router.get("/perfCliente/update/:idUser", isLoggedIn, isCliente, async(req,res,next)=>{
+router.get("/perfCliente/update/", isLoggedIn, isCliente, async(req,res,next)=>{
   try {
     
-    const user = await User.findById(req.params.idUser)
+  
+    const user = await User.findById(req.session.activeUser._id)
 
     res.render("cliente/update-cliente-form.hbs" , user)
     
@@ -51,15 +52,23 @@ router.get("/perfCliente/update/:idUser", isLoggedIn, isCliente, async(req,res,n
 })
 
 //POST => Actualiza datos del cliente en el BD
-router.post("/perfCliente/update/:idUser", isLoggedIn,isCliente, async(req,res,next)=>{
+router.post("/perfCliente/update/", isLoggedIn,isCliente, async(req,res,next)=>{
 
-  const {idUser} = req.params
+  
   const {username,email,password}  = req.body
   
   // validación de contraseña
+
+  if (username === "" || email === "" || password === "") {
+    res.status(401).render("cliente/update-cliente-form.hbs", {
+      errorMessage: "Por favor, Todos los campos deben estar llenos",
+    });
+    return;
+  }
+
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/;
   if (passwordRegex.test(password) === false) {
-    res.render("auth/usuario-signup-form.hbs", {
+    res.render("cliente/update-cliente-form.hbs", {
     errorMessage:
       "La contraseña debe tener minimo 6 caracteres, una mayuscula, una minuscula y un caracter especial",
   });
@@ -71,31 +80,31 @@ router.post("/perfCliente/update/:idUser", isLoggedIn,isCliente, async(req,res,n
 
   try {
 
-    //validación de usuario existente
-    const foundUser = await User.findOne({ username: username });
-    // console.log(foundUser);
-    if (foundUser !== null) {
-      res.render("auth/usuario-signup-form.hbs", {
-        errorMessage: "el nombre de usuario ya existe",
-      });
-      return;
-    }
-    //validacion de email
-    const foundUserEmail = await User.findOne({ email: email });
-    // console.log(foundUserEmail);
-    if (foundUserEmail !== null) {
-      res.render("auth/usuario-signup-form.hbs", {
-        errorMessage: "El correo electronico está en uso",
-      });
-      return;
-    }
+    // //validación de usuario existente
+    // const foundUser = await User.findOne({ username: username });
+    // // console.log(foundUser);
+    // if (foundUser !== null) {
+    //   res.render("/cliente/update-cliente-form.hbs", {
+    //     errorMessage: "el nombre de usuario ya existe",
+    //   });
+    //   return;
+    // }
+    // //validacion de email
+    // const foundUserEmail = await User.findOne({ email: email });
+    // // console.log(foundUserEmail);
+    // if (foundUserEmail !== null) {
+    //   res.render("/cliente/update-cliente-form.hbs", {
+    //     errorMessage: "El correo electronico está en uso",
+    //   });
+    //   return;
+    // }
     
-    const response =  await User.findByIdAndUpdate(idUser,{
+    await User.findByIdAndUpdate(req.session.activeUser._id,{
       username: username,
       email: email,
       password: hashPassword
     })
-    res.redirect(`/user/perfCliente/${idUser}`)
+    res.redirect(`/user/perfCliente`)
 
   } catch (error) {
     next (error)
@@ -104,13 +113,12 @@ router.post("/perfCliente/update/:idUser", isLoggedIn,isCliente, async(req,res,n
 })
 
 //POST => Elimina Cliente de la base de datos
-router.post("/delete/:idCliente" , isLoggedIn,isCliente, async (req,res,next)=>{
+router.post("/delete/" , isLoggedIn,isCliente, async (req,res,next)=>{
 
-  const {idCliente} = req.params
 
   try {
 
-    await User.findByIdAndDelete(idCliente)
+    await User.findByIdAndDelete(req.session.activeUser._id)
     req.session.destroy(() => {
       res.redirect("/");
     })  
@@ -122,13 +130,13 @@ router.post("/delete/:idCliente" , isLoggedIn,isCliente, async (req,res,next)=>{
 })
 
 //POST => Elimina un usuario de la BD
-router.post("/:idUser" , isLoggedIn, async (req,res,next)=>{
+router.post("/" , isLoggedIn, async (req,res,next)=>{
 
-  const {idUser} = req.params
+  
 
   try {
 
-    await User.findByIdAndDelete(idUser)
+    await User.findByIdAndDelete(req.session.activeUser._id)
     req.session.destroy(() => {
       res.redirect("/auth/signup");
     })  
