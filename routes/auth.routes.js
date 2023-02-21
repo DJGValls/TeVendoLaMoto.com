@@ -13,7 +13,7 @@ const {
 router.get(
   "/signup/vendedor/",
   isLoggedIn,
-  isVendedor,
+  
   async (req, res, next) => {
     try {
       const foundVendedor = await User.findById(req.session.activeUser._id);
@@ -28,12 +28,12 @@ router.get(
 
 );
 
-// ! NO HABIAMOS QUITADO EL USERID DEL POST Y SEGUIA ESPERANDOLO
+
 // POST "/auth/signup" enviar registro de vendedor
 router.post(
   "/signup/vendedor/",
   isLoggedIn,
-  isVendedor,
+  
   async (req, res, next) => {
     // console.log(req.body);
     const { cif, telefono } = req.body;
