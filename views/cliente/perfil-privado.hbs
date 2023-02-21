@@ -2,3 +2,28 @@
 
 <a href="/user/perfCliente/update">Editar Perfil cliente</a>
 
+<a href="/auth/logout">Cerrar sesion</a>
+
+
+<div id="container-product">
+    
+    {{#each allProduct}}
+      <div id="product">
+          {{!-- <img src="/images/IA.jpg" alt="IA" width="100px"> --}}
+          <br>
+          <h3>{{this.nombre}}</h3>
+          <h5>{{this.precio}}</h2>
+          <br>
+          <p>{{this.descripcion}}</p>
+          <div class="d-flex justify-content-center">
+            <a href="">
+            <button class="btn btn-info">Contactar con Vendedor</button>
+            </a>
+            
+            </form>
+          </div>
+        </div>
+      {{/each}}
+   </div> 
+
+</div>
