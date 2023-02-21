@@ -12,15 +12,21 @@ const {isLoggedIn, isCliente, isVendedor} = require("../middlewares/auth-middlew
 // GET => renderiza vista de perfil de vendedor
 router.get("/perfVendedor", isLoggedIn, isVendedor, async(req,res,next)=>{
 
-    const response = await Product.find();
+    const response = await Product.find({vendedor:`${req.session.activeUser._id}`});
         res.render("vendedor/perfil-privado.hbs",{
       allProduct: response
     })
 })
 
 // GET => renderiza vista de formulario de update de vendedor
-router.get("/perfVendedor/update", isLoggedIn, isVendedor, (req,res,next)=>{
+router.get("/perfVendedor/update", isLoggedIn, isVendedor, async(req,res,next)=>{
   
+  try {
+    const user = await User.findById(req.session.activeUser._id)
+  } catch (error) {
+    next(error)
+  }
+
   res.render("vendedor/update-vendedor-form.hbs")
 })
 

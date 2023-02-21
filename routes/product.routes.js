@@ -16,7 +16,8 @@ router.get("/create-product", isLoggedIn, isVendedor, (req, res, next) => {
 
 // POST => Crea un producto en la DB
 router.post("/create-product", isLoggedIn, isVendedor, async (req, res, next) => {
-  const { nombre, precio, descripcion, vendedor, img } = req.body;
+  const { nombre, precio, descripcion, img } = req.body;
+
   // console.log(req.file.path); //=> NOS MUESTRA LA URL DE LA IMAGEN DE CLOUDINARY
 
   try {
@@ -24,7 +25,7 @@ router.post("/create-product", isLoggedIn, isVendedor, async (req, res, next) =>
       nombre: nombre,
       precio: precio,
       descripcion: descripcion,
-      vendedor: vendedor,
+      vendedor: req.session.activeUser._id ,
       // img: req.body.ult
     });
 
