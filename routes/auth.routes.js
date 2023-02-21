@@ -78,7 +78,7 @@ router.post(
       }
 
       // CREAMOS UN USUARIO con un Update
-      await User.findByIdAndUpdate(req.params.userId, {
+      await User.findByIdAndUpdate(req.session.activeUser._id, {
         cif,
         telefono,
       });
@@ -160,7 +160,7 @@ router.post("/signup", async (req, res, next) => {
     } else {
       req.session.activeUser = foundTypeUser;
       req.session.save(() => {
-        res.redirect(`/user/perfCliente/${foundTypeUser._id}`);
+        res.redirect(`/user/perfCliente`);
       });
     }
       
@@ -218,7 +218,7 @@ router.post("/login", async (req, res, next) => {
       // espera a que se haya creado la sesión en la DB correctamente y luego...
       if (foundUser.role === "Cliente") {
         res.redirect(`/user/perfCliente/`);
-      } else res.redirect(`/perfVendedor/`);
+      } else res.redirect(`/user/perfVendedor/`);
     });
   } catch (err) {
     next(err);

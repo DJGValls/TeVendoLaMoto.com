@@ -18,7 +18,7 @@ const isCliente = (req, res, next) => {
 
 // verificar si es vendedor
 const isVendedor = (req, res, next) => {
-  if (req.session.activeUser.role === "Vendedor" && req.session.activeUser.cif !== undefined && req.session.activeUser.telefono !== undefined) {
+  if (req.session.activeUser.role === "Vendedor" && req.session.activeUser.cif !== null && req.session.activeUser.telefono !== null) {
     next(); // next sin argumentos significa continua con las rutas
   } else res.redirect("/auth/login");
 };
