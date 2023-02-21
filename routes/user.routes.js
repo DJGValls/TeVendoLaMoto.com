@@ -28,8 +28,13 @@ router.get("/perfVendedor/update", isLoggedIn, isVendedor, (req,res,next)=>{
 router.get("/perfCliente/", isLoggedIn, isCliente, async(req,res,next)=>{
 
   try {
-    const idCliente = await User.findById(req.session.activeUser._id)
-    res.render("cliente/perfil-privado.hbs" , {idCliente})
+    // const idCliente = await User.findById(req.session.activeUser._id)
+    // res.render("cliente/perfil-privado.hbs" , {idCliente})
+
+    const response = await Product.find();
+        res.render("cliente/perfil-privado.hbs",{
+      allProduct: response
+    })
    
     
   } catch (error) {
@@ -131,8 +136,6 @@ router.post("/delete/" , isLoggedIn,isCliente, async (req,res,next)=>{
 
 //POST => Elimina un usuario de la BD
 router.post("/" , isLoggedIn, async (req,res,next)=>{
-
-  
 
   try {
 
