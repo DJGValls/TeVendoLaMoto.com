@@ -23,11 +23,74 @@ router.get("/perfVendedor/update", isLoggedIn, isVendedor, async(req,res,next)=>
   
   try {
     const user = await User.findById(req.session.activeUser._id)
+    res.render("vendedor/update-vendedor-form.hbs", user)
+
   } catch (error) {
     next(error)
   }
 
-  res.render("vendedor/update-vendedor-form.hbs")
+})
+
+// POST => Actualiza datos del vendedor en la BD
+router.post("/perfVendedor/update/" , isLoggedIn,isVendedor, async(req,res,next)=>{
+ 
+     
+  const {username,email,password,cif,telefono}  = req.body
+  
+  
+  if (username === "" || email === "" || password === "" || cif === "" || telefono === "") {
+    res.status(401).render("vendedor/update-vendedor-form.hbs", {
+      errorMessage: "Por favor, Todos los campos deben estar llenos",
+    });
+    return;
+  }
+  
+  // validación de contraseña
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/;
+  if (passwordRegex.test(password) === false) {
+    res.render("vendedor/update-vendedor-form.hbs", {
+    errorMessage:
+      "La contraseña debe tener minimo 6 caracteres, una mayuscula, una minuscula y un caracter especial",
+  });
+  }
+
+  const salt = await bcrypt.genSalt(12);
+  const hashPassword = await bcrypt.hash(password, salt);
+
+
+  // Validacion CIF
+  const CIF_REGEX = /^([ABCDEFGHJKLMNPQRSUVW])(\d{7})([0-9A-J])$/;
+  if (CIF_REGEX.test(cif) === false) {
+    res.status(401).render("vendedor/update-vendedor-form.hbs", {
+    errorMessage:
+    "El cif debe tener minimo 8 caracteres y el primero de ellos debe ser una letra",
+  });
+    return;
+  }
+  //Validacion Teléfono
+  const TLF_REGEX = /\+?(\s*\d{0,2})()\1[1234567890]{0,2}\2[1234567890 .-]{9,13}/;
+  if(TLF_REGEX.test(telefono) === false){
+    res.status(401).render("vendedor/update-vendedor-form.hbs", {
+      errorMessage: "El teléfono debe tener 9 números."
+    });
+    return;
+    }
+  try {
+
+  
+    await User.findByIdAndUpdate(req.session.activeUser._id,{
+      username: username,
+      email: email,
+      password: hashPassword,
+      cif: cif,
+      telefono: telefono
+    })
+    res.redirect(`/user/perfVendedor`)
+    
+  } catch (error) {
+    next (error)
+  }
+  
 })
 
 // GET => renderiza vista de perfil cliente
@@ -50,8 +113,9 @@ router.get("/perfCliente/", isLoggedIn, isCliente, async(req,res,next)=>{
 
 // GET => renderiza vista de formulario de update de cliente
 router.get("/perfCliente/update/", isLoggedIn, isCliente, async(req,res,next)=>{
+  
+  
   try {
-    
   
     const user = await User.findById(req.session.activeUser._id)
 
@@ -123,14 +187,20 @@ router.post("/perfCliente/update/", isLoggedIn,isCliente, async(req,res,next)=>{
 
 })
 
-//POST => Elimina Cliente de la base de datos
-router.post("/delete/" , isLoggedIn,isCliente, async (req,res,next)=>{
 
 
+//POST => Elimina Users de la base de datos
+router.post("/delete/" , isLoggedIn, async (req,res,next)=>{
+
+  
   try {
+  
+    if(req.session.activeUser.role === "Vendedor"){
+      await Product.deleteMany({vendedor: req.session.activeUser._id})
+    }
 
     await User.findByIdAndDelete(req.session.activeUser._id)
-    req.session.destroy(() => {
+      req.session.destroy(() => {
       res.redirect("/");
     })  
     
@@ -139,24 +209,6 @@ router.post("/delete/" , isLoggedIn,isCliente, async (req,res,next)=>{
   }
 
 })
-
-//POST => Elimina un usuario de la BD
-router.post("/" , isLoggedIn, async (req,res,next)=>{
-
-  try {
-
-    await User.findByIdAndDelete(req.session.activeUser._id)
-    req.session.destroy(() => {
-      res.redirect("/auth/signup");
-    })  
-    
-  } catch (error) {
-    next (error)
-  }
-
-})
-
-
 
 
   module.exports = router;
