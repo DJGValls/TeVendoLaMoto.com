@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-// const uploader = require("../middlewares/cloudinary.js")
+const uploader = require("../middlewares/cloudinary.js")
 
 const Product = require("../models/Product.model.js");
 const {
@@ -15,17 +15,18 @@ router.get("/create-product", isLoggedIn, isVendedor, (req, res, next) => {
 });
 
 // POST => Crea un producto en la DB
-router.post("/create-product", isLoggedIn, isVendedor, async (req, res, next) => {
-  const { nombre, precio, descripcion, vendedor, img } = req.body;
-  // console.log(req.file.path); //=> NOS MUESTRA LA URL DE LA IMAGEN DE CLOUDINARY
+router.post("/create-product",uploader.single("img"), isLoggedIn, isVendedor, async (req, res, next) => {
+  const { nombre, precio, descripcion, img } = req.body;
+
+  console.log(req.file.path); //=> NOS MUESTRA LA URL DE LA IMAGEN DE CLOUDINARY
 
   try {
     const response = await Product.create({
       nombre: nombre,
       precio: precio,
       descripcion: descripcion,
-      vendedor: vendedor,
-      // img: req.body.ult
+      vendedor: req.session.activeUser._id ,
+      img: req.file.path
     });
 
     
@@ -40,7 +41,7 @@ router.get("/:productId/details", isLoggedIn, async (req, res, next) => {
   try {
     const { productId } = req.params;
 
-    const response = await Product.findById(productId);
+    const response = await Product.findById(productId).populate("vendedor");
     res.render("producto/detalle-producto.hbs", {
       oneProduct: response,
     });

@@ -2,7 +2,7 @@
 
 <div>
 
-  <form action="/product/create-product" method="post">
+  <form action="/product/create-product" method="post" enctype="multipart/form-data">
 
     <label for="nombre">Nombre</label>
     <input type="text" name="nombre" />
@@ -12,9 +12,6 @@
     <br />
     <label for="descripcion">Descripcion</label>
     <input type="text" name="descripcion" />
-    <br />
-    <label for="vendedor">Vendedor</label>
-    <input type="text" name="vendedor" />
     <br />
     <label for="img">Imagen</label>
     <input type="file" name="img" />
