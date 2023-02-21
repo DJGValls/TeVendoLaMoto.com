@@ -217,8 +217,8 @@ router.post("/login", async (req, res, next) => {
     req.session.save(() => {
       // espera a que se haya creado la sesión en la DB correctamente y luego...
       if (foundUser.role === "Cliente") {
-        res.redirect(`/user/perfCliente/${foundUser._id}`);
-      } else res.redirect(`/perfVendedor/${foundUser._id}`);
+        res.redirect(`/user/perfCliente/`);
+      } else res.redirect(`/perfVendedor/`);
     });
   } catch (err) {
     next(err);
