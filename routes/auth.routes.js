@@ -106,6 +106,7 @@ router.post("/signup", async (req, res, next) => {
     res.status(401).render("auth/usuario-signup-form.hbs", {
       errorMessage: "Por favor, Todos los campos deben estar llenos",
     });
+    
     return;
   }
 
