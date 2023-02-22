@@ -27,6 +27,10 @@ const formContactSchema = new Schema(
         type: String,
         enum: ["Pendiente", "Aceptado"],
         default: "Pendiente"
+      },
+      valorPuja: {
+        type: Boolean,
+        default: false
       }
       
   },

@@ -112,19 +112,29 @@ router.post(
 
 // GET => renderiza vista de perfil cliente
 router.get("/perfCliente/", isLoggedIn, isCliente, async (req, res, next) => {
+  // const estadoPuja =  "Aceptado"
+  
   try {
     const mensajes = await FormContact.find({
       cliente: `${req.session.activeUser._id}`,
     });
 
+    // if(JSON.stringify(mensajes).includes("Aceptado")){
+    //   valorPuja = true
+    // }else{
+    //   valorPuja = false
+    // }
+    
     const response = await Product.find();
-
+    const valorPuja = JSON.stringify(mensajes).includes("Pendiente")
+    console.log(valorPuja);
+    
     res.render("cliente/perfil-privado.hbs", {
       allProduct: response,
       todosLosMensajes: mensajes,
+      valorPuja: valorPuja
     });
 
-    console.log(response);
   } catch (error) {
     next(error);
   }
@@ -175,25 +185,7 @@ router.post(
     const hashPassword = await bcrypt.hash(password, salt);
 
     try {
-      // //validación de usuario existente
-      // const foundUser = await User.findOne({ username: username });
-      // // console.log(foundUser);
-      // if (foundUser !== null) {
-      //   res.render("/cliente/update-cliente-form.hbs", {
-      //     errorMessage: "el nombre de usuario ya existe",
-      //   });
-      //   return;
-      // }
-      // //validacion de email
-      // const foundUserEmail = await User.findOne({ email: email });
-      // // console.log(foundUserEmail);
-      // if (foundUserEmail !== null) {
-      //   res.render("/cliente/update-cliente-form.hbs", {
-      //     errorMessage: "El correo electronico está en uso",
-      //   });
-      //   return;
-      // }
-
+      
       await User.findByIdAndUpdate(req.session.activeUser._id, {
         username: username,
         email: email,
@@ -240,7 +232,7 @@ router.post("/:idMensaje/update", isLoggedIn,isVendedor, async(req,res,next)=>{
     })
     res.redirect("/user/perfVendedor")
 
-    console.log(prueba)
+    // console.log(prueba)
 
   } catch (error) {
     next (error)
@@ -248,7 +240,7 @@ router.post("/:idMensaje/update", isLoggedIn,isVendedor, async(req,res,next)=>{
 });
 
 //POST => Eliminar Mensajes de la BD
-router.post("/:idMensaje/delete", isLoggedIn,isVendedor, async (req, res, next) => {
+router.post("/:idMensaje/delete", isLoggedIn, async (req, res, next) => {
   const {idMensaje} = req.params
   try {
       
