@@ -2,19 +2,22 @@ const { Schema, model, default: mongoose } = require("mongoose");
 
 const formContactSchema = new Schema(
   {
-    // nombre: {
-    //   type: String,
-    //   trim: true,
-    //   required: true,
-    // },
+      
+    cliente: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
+
     mensaje: {
-      type: String,
+      type: Number,
       require: true
     },
-    producto:{
+    producto:
+      {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product"
-    }
+      },
+        
   },
   
   {

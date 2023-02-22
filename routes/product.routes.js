@@ -102,7 +102,7 @@ router.get("/:productId/contact" ,isLoggedIn, isCliente, async (req,res,next)=>{
 
     const {productId} = req.params
     const product = await Product.findById(productId).populate("vendedor")
-  
+    
     res.render("producto/nuevo-contacto-form.hbs", product);
     
   } catch (error) {
@@ -117,10 +117,12 @@ router.post("/:productId/contact", isLoggedIn,isCliente, async (req,res,next)=>{
     const {mensaje} = req.body
     
     await FormContact.create({
+      cliente: req.session.activeUser._id,
       mensaje: mensaje,
-      producto: productId
+      producto: productId,
+
     })
-    console.log(productId)
+  
 
     res.redirect("/user/perfCliente")
     

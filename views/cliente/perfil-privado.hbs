@@ -5,11 +5,30 @@
 <a href="/auth/logout">Cerrar sesion</a>
 
 
+{{! Contenedor Mensajes de clientes }}
+ <div>
+    {{! Bucle de mensajes }}
+    <h1>Bucle de mensajes de clientes</h1>
+   
+    {{#each todosLosMensajes}} 
+    {{!-- {{#if idSession === mensaje.cliente }} --}}
+       <div id="product">
+          <h2>Puja:{{mensaje}}€</h2>
+          <h2>{{this.producto.nombre}}</h2>
+          <button>Aceptar</button>
+          <button>Rechazar</button>
+       </div>
+    {{!-- {{/if}} --}}
+    {{/each}}
+       
+  </div> 
+
+
 <div id="container-product">
     
     {{#each allProduct}}
       <div id="product">
-          {{!-- <img src="/images/IA.jpg" alt="IA" width="100px"> --}}
+          <img src={{this.img}} alt="img" width="100px">
           <br>
           <h3>{{this.nombre}}</h3>
           <h5>{{this.precio}}</h2>

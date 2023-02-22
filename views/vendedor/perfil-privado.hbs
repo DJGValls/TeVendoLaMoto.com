@@ -5,8 +5,15 @@
   {{! Contenedor Mensajes de clientes }}
   <div>
     {{! Bucle de mensajes }}
-    <h1>Bucle de mensajes de clientes</h1>
 
+    {{#each mensaje}}
+       <div id="product">
+          <h2>Puja:{{this.mensaje}}€</h2>
+          <h2>{{this.producto.nombre}}</h2>
+          <button>Aceptar</button>
+          <button>Rechazar</button>
+       </div>
+    {{/each}}
   </div>
 
   {{! contenedor de perfil }}
@@ -17,7 +24,7 @@
           <img src= {{this.img}} alt="img" width="100px">
           <br>
           <h3>{{this.nombre}}</h3>
-          <h5>{{this.precio}}</h2>
+          <h5>{{this.precio}}€</h2>
           <br>
           <p>{{this.descripcion}}</p>
           <div class="d-flex justify-content-center">
