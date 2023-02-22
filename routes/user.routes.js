@@ -248,7 +248,7 @@ router.post("/:idMensaje/update", isLoggedIn,isVendedor, async(req,res,next)=>{
 });
 
 //POST => Eliminar Mensajes de la BD
-router.post("/:idMensaje/delete", isLoggedIn, async (req, res, next) => {
+router.post("/:idMensaje/delete", isLoggedIn,isVendedor, async (req, res, next) => {
   const {idMensaje} = req.params
   try {
       
