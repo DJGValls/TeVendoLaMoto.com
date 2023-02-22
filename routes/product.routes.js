@@ -116,11 +116,11 @@ router.post("/:productId/contact", isLoggedIn,isCliente, async (req,res,next)=>{
     const {productId} = req.params
     const {mensaje} = req.body
     
-     await FormContact.create({
+    await FormContact.create({
       mensaje: mensaje,
       producto: productId
     })
-    console.log(productId._id)
+    console.log(productId)
 
     res.redirect("/user/perfCliente")
     
