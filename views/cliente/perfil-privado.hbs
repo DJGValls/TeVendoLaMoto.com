@@ -16,6 +16,15 @@
           <h2>Puja:{{mensaje}}€</h2>
           {{!-- <h2>{{this.nombre}}</h2> --}}
           <h3>{{this.estadoPuja}}</h3>
+          {{#if this.estadoPuja}}
+             <button>Comprar</button>
+             {{else}}
+          {{/if}}
+          <form action="/{{this._id}}/delete" method="post">
+            <button>Anular puja</button>
+          </form>
+       
+
          
        </div>
 

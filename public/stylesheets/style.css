@@ -2,6 +2,7 @@ body {
   margin: 0px;
   padding: 10px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #626261 ;
 }
 
 a {
@@ -12,17 +13,23 @@ h1 {
   color: 15px;
 }
 
-#content-nav{
+/* #content-nav{
   display: flex;
   justify-content: row;
   gap: 30px;
   margin-bottom: 20px;
+} */
+
+.nav-link{
+  font-weight: 600;
+
 }
 
 #container-product{
   display: flex;
   justify-content: row;
   gap: 30px;
+  
 }
 
 #product{

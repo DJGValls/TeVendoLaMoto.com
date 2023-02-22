@@ -222,6 +222,31 @@ router.post("/delete/", isLoggedIn, async (req, res, next) => {
   }
 });
 
+
+//POST => Actualizar mensaje de cliente una vez aceptado por vendedor
+router.post("/:idMensaje/update", isLoggedIn,isVendedor, async(req,res,next)=>{
+  
+  const {idMensaje} = req.params
+  const estadoPuja =  "Aceptado"
+  let pujaAceptada;
+  try {
+    if(estadoPuja.includes("Aceptado")){
+      pujaAceptada = true
+    }else{
+      pujaAceptada = false
+    }
+    const prueba=  await FormContact.findByIdAndUpdate(idMensaje, {
+      estadoPuja: pujaAceptada
+    })
+    res.redirect("/user/perfVendedor")
+
+    console.log(prueba)
+
+  } catch (error) {
+    next (error)
+  }
+});
+
 //POST => Eliminar Mensajes de la BD
 router.post("/:idMensaje/delete", isLoggedIn, isVendedor ,async (req, res, next) => {
   const {idMensaje} = req.params
@@ -234,21 +259,7 @@ router.post("/:idMensaje/delete", isLoggedIn, isVendedor ,async (req, res, next)
   }
 });
 
-//POST => Actualizar mensaje de cliente una vez aceptado por vendedor
-router.post("/:idMensaje/update"), isLoggedIn,isVendedor, async(req,res,next)=>{
-  
-  const {idMensaje} = req.params
-  const estadoPuja =  "Aceptado"
-  
-  try {
-    
-    await FormContact.findByIdAndUpdate(idMensaje, estadoPuja)
-    res.redirect("/user/perfVendedor")
 
-  } catch (error) {
-    next (error)
-  }
-}
 
 
 module.exports = router;

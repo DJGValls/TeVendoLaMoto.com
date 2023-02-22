@@ -25,6 +25,7 @@ const formContactSchema = new Schema(
       
       estadoPuja: {
         type: String,
+        enum: ["Pendiente", "Aceptado"],
         default: "Pendiente"
       }
       
