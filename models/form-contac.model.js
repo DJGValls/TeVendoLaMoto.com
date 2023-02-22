@@ -13,7 +13,7 @@ const formContactSchema = new Schema(
     },
     producto:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Producto"
+        ref: "Product"
     }
   },
   
