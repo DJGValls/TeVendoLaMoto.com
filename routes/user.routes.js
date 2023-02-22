@@ -14,14 +14,18 @@ const FormContact = require("../models/form-contac.model.js");
 
 // GET => renderiza vista de perfil de vendedor
 router.get("/perfVendedor", isLoggedIn, isVendedor, async (req, res, next) => {
-  const mensaje = await FormContact.find();
+  
+  const mensaje = await FormContact.find({
+    vendedor: `${req.session.activeUser._id}`,
+  }).populate("vendedor");
 
   const response = await Product.find({
     vendedor: `${req.session.activeUser._id}`,
   });
+  // console.log(response);
   res.render("vendedor/perfil-privado.hbs", {
     allProduct: response,
-    mensaje: mensaje,
+    todosLosMensajes: mensaje,
   });
 });
 
@@ -109,19 +113,18 @@ router.post(
 // GET => renderiza vista de perfil cliente
 router.get("/perfCliente/", isLoggedIn, isCliente, async (req, res, next) => {
   try {
-
     const mensajes = await FormContact.find({
       cliente: `${req.session.activeUser._id}`,
     });
 
     const response = await Product.find();
+
     res.render("cliente/perfil-privado.hbs", {
       allProduct: response,
-      todosLosMensajes: mensajes
+      todosLosMensajes: mensajes,
     });
 
-     console.log(mensajes)
-     
+    console.log(response);
   } catch (error) {
     next(error);
   }
@@ -218,5 +221,34 @@ router.post("/delete/", isLoggedIn, async (req, res, next) => {
     next(error);
   }
 });
+
+//POST => Eliminar Mensajes de la BD
+router.post("/:idMensaje/delete", isLoggedIn, isVendedor ,async (req, res, next) => {
+  const {idMensaje} = req.params
+  try {
+      await FormContact.findByIdAndDelete(idMensaje);
+      res.redirect("/user/perfVendedor")
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+//POST => Actualizar mensaje de cliente una vez aceptado por vendedor
+router.post("/:idMensaje/update"), isLoggedIn,isVendedor, async(req,res,next)=>{
+  
+  const {idMensaje} = req.params
+  const estadoPuja =  "Aceptado"
+  
+  try {
+    
+    await FormContact.findByIdAndUpdate(idMensaje, estadoPuja)
+    res.redirect("/user/perfVendedor")
+
+  } catch (error) {
+    next (error)
+  }
+}
+
 
 module.exports = router;

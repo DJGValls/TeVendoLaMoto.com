@@ -6,14 +6,22 @@
   <div>
     {{! Bucle de mensajes }}
 
-    {{#each mensaje}}
-       <div id="product">
+    {{#each todosLosMensajes}}
+          <div id="product">
           <h2>Puja:{{this.mensaje}}€</h2>
-          <h2>{{this.producto.nombre}}</h2>
-          <button>Aceptar</button>
-          <button>Rechazar</button>
+          <h2>{{allProduct.nombre}}</h2>
+          <h3>{{this.estadoPuja}}</h3>
+            
+          <form action="{{this._id}}/update" method="post">
+            <button>Aceptar</button>
+          </form> 
+          <form action="{{this._id}}/delete" method="post">
+            <button>Rechazar</button>
+          </form>
+            
        </div>
     {{/each}}
+
   </div>
 
   {{! contenedor de perfil }}

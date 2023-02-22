@@ -11,14 +11,14 @@
     <h1>Bucle de mensajes de clientes</h1>
    
     {{#each todosLosMensajes}} 
-    {{!-- {{#if idSession === mensaje.cliente }} --}}
+    
        <div id="product">
           <h2>Puja:{{mensaje}}€</h2>
-          <h2>{{this.producto.nombre}}</h2>
-          <button>Aceptar</button>
-          <button>Rechazar</button>
+          {{!-- <h2>{{this.nombre}}</h2> --}}
+          <h3>{{this.estadoPuja}}</h3>
+         
        </div>
-    {{!-- {{/if}} --}}
+
     {{/each}}
        
   </div> 

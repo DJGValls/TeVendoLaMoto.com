@@ -19,7 +19,7 @@ router.get("/create-product", isLoggedIn, isVendedor, (req, res, next) => {
 router.post("/create-product",uploader.single("img"), isLoggedIn, isVendedor, async (req, res, next) => {
   const { nombre, precio, descripcion, img } = req.body;
 
-  console.log(req.file.path); //=> NOS MUESTRA LA URL DE LA IMAGEN DE CLOUDINARY
+  // console.log(req.file.path); //=> NOS MUESTRA LA URL DE LA IMAGEN DE CLOUDINARY
 
   try {
     await Product.create({
@@ -109,20 +109,22 @@ router.get("/:productId/contact" ,isLoggedIn, isCliente, async (req,res,next)=>{
     next(error)
   }
  } )
-
+//POST => Crear un mensaje en la BD
 router.post("/:productId/contact", isLoggedIn,isCliente, async (req,res,next)=>{
   try {
 
     const {productId} = req.params
-    const {mensaje} = req.body
+    const {mensaje,estadoPuja} = req.body
+    const vendedorProducto = await Product.findById(productId).populate("vendedor")
     
     await FormContact.create({
       cliente: req.session.activeUser._id,
       mensaje: mensaje,
       producto: productId,
-
+      vendedor: vendedorProducto.vendedor._id,
+      estadoPuja: estadoPuja
     })
-  
+    console.log(vendedorProducto.vendedor._id)
 
     res.redirect("/user/perfCliente")
     

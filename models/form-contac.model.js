@@ -17,7 +17,17 @@ const formContactSchema = new Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product"
       },
-        
+    
+      vendedor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      },
+      
+      estadoPuja: {
+        type: String,
+        default: "Pendiente"
+      }
+      
   },
   
   {
