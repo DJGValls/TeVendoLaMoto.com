@@ -1,1 +1,35 @@
 <h2>formulario de update de datos de vendedor</h2>
+<form action="/user/perfVendedor/update" method="post">
+    <label for="username">Nombre de Usuario</label>
+    <input type="text" name="username" value="{{username}}">
+    <br>
+    <label for="email">Correo Electronico</label>
+    <input type="text" name="email" value="{{email}}">
+    <br>
+    <label for="password">Introduce nueva contraseña</label>
+    <input type="text" name="password">
+    <br>
+    <label for="cif">CIF</label>
+    <input type="text" name="cif" value="{{cif}}">
+    <br>
+    <label for="telefono">Teléfono</label>
+    <input type="text" name="telefono" value="{{telefono}}">
+    <br>
+    
+    
+
+    {{#if this.errorMessage}}
+      <p class="error">{{this.errorMessage}}</p>
+    {{/if}}
+    
+    
+    <br>
+    <button>Actualizar</button>
+    <br>
+
+
+</form>
+
+    <form action= "/user/delete" method="post" >
+        <button>Eliminar Usuario</button>
+    </form>

@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-// const uploader = require("../middlewares/cloudinary.js")
+const uploader = require("../middlewares/cloudinary.js")
 
 const Product = require("../models/Product.model.js");
+const FormContact = require("../models/form-contac.model.js")
 const {
   isLoggedIn,
   isCliente,
@@ -15,17 +16,18 @@ router.get("/create-product", isLoggedIn, isVendedor, (req, res, next) => {
 });
 
 // POST => Crea un producto en la DB
-router.post("/create-product", isLoggedIn, isVendedor, async (req, res, next) => {
-  const { nombre, precio, descripcion, vendedor, img } = req.body;
-  // console.log(req.file.path); //=> NOS MUESTRA LA URL DE LA IMAGEN DE CLOUDINARY
+router.post("/create-product",uploader.single("img"), isLoggedIn, isVendedor, async (req, res, next) => {
+  const { nombre, precio, descripcion, img } = req.body;
+
+  console.log(req.file.path); //=> NOS MUESTRA LA URL DE LA IMAGEN DE CLOUDINARY
 
   try {
-    const response = await Product.create({
+    await Product.create({
       nombre: nombre,
       precio: precio,
       descripcion: descripcion,
-      vendedor: vendedor,
-      // img: req.body.ult
+      vendedor: req.session.activeUser._id ,
+      img: req.file.path
     });
 
     
@@ -40,7 +42,7 @@ router.get("/:productId/details", isLoggedIn, async (req, res, next) => {
   try {
     const { productId } = req.params;
 
-    const response = await Product.findById(productId);
+    const response = await Product.findById(productId).populate("vendedor");
     res.render("producto/detalle-producto.hbs", {
       oneProduct: response,
     });
@@ -91,6 +93,40 @@ router.post("/:productId/delete", isLoggedIn, isVendedor, async(req,res,next)=>{
     } catch (error) {
         next (error)
     }
+})
+
+//GET => Renderiza la vista del formulario de contacto
+router.get("/:productId/contact" ,isLoggedIn, isCliente, async (req,res,next)=>{
+
+  try {
+
+    const {productId} = req.params
+    const product = await Product.findById(productId).populate("vendedor")
+  
+    res.render("producto/nuevo-contacto-form.hbs", product);
+    
+  } catch (error) {
+    next(error)
+  }
+ } )
+
+router.post("/:productId/contact", isLoggedIn,isCliente, async (req,res,next)=>{
+  try {
+
+    const {productId} = req.params
+    const {mensaje} = req.body
+    
+     await FormContact.create({
+      mensaje: mensaje,
+      producto: productId
+    })
+    console.log(productId._id)
+
+    res.redirect("/user/perfCliente")
+    
+  } catch (error) {
+    next (error)
+  }
 })
 
 

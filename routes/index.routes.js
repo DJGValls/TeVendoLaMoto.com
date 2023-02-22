@@ -6,7 +6,7 @@ const Product = require("../models/Product.model.js");
 //  GET => NOS LLEVA A HOME
 router.get("/", async (req, res, next) => {
   try {
-    const response = await Product.find().select("vendedor");
+    const response = await Product.find().populate("vendedor");
 
     res.render("index",{
       allProduct: response

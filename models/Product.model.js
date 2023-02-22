@@ -17,7 +17,10 @@ const productSchema = new Schema(
       require: true
     },
 
-    vendedor: String ,
+    vendedor: {
+      type:mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    } ,
     
     img: String //todo: URL DE CLOUDINARY
   },
