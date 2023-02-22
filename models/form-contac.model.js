@@ -2,11 +2,11 @@ const { Schema, model, default: mongoose } = require("mongoose");
 
 const formContactSchema = new Schema(
   {
-    nombre: {
-      type: String,
-      trim: true,
-      required: true,
-    },
+    // nombre: {
+    //   type: String,
+    //   trim: true,
+    //   required: true,
+    // },
     mensaje: {
       type: String,
       require: true

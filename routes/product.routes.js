@@ -3,6 +3,7 @@ const router = express.Router();
 const uploader = require("../middlewares/cloudinary.js")
 
 const Product = require("../models/Product.model.js");
+const FormContact = require("../models/form-contac.model.js")
 const {
   isLoggedIn,
   isCliente,
@@ -21,7 +22,7 @@ router.post("/create-product",uploader.single("img"), isLoggedIn, isVendedor, as
   console.log(req.file.path); //=> NOS MUESTRA LA URL DE LA IMAGEN DE CLOUDINARY
 
   try {
-    const response = await Product.create({
+    await Product.create({
       nombre: nombre,
       precio: precio,
       descripcion: descripcion,
@@ -92,6 +93,40 @@ router.post("/:productId/delete", isLoggedIn, isVendedor, async(req,res,next)=>{
     } catch (error) {
         next (error)
     }
+})
+
+//GET => Renderiza la vista del formulario de contacto
+router.get("/:productId/contact" ,isLoggedIn, isCliente, async (req,res,next)=>{
+
+  try {
+
+    const {productId} = req.params
+    const product = await Product.findById(productId).populate("vendedor")
+  
+    res.render("producto/nuevo-contacto-form.hbs", product);
+    
+  } catch (error) {
+    next(error)
+  }
+ } )
+
+router.post("/:productId/contact", isLoggedIn,isCliente, async (req,res,next)=>{
+  try {
+
+    const {productId} = req.params
+    const {mensaje} = req.body
+    
+     await FormContact.create({
+      mensaje: mensaje,
+      producto: productId
+    })
+    console.log(productId._id)
+
+    res.redirect("/user/perfCliente")
+    
+  } catch (error) {
+    next (error)
+  }
 })
 
 
