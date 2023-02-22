@@ -228,12 +228,12 @@ router.post("/:idMensaje/update", isLoggedIn,isVendedor, async(req,res,next)=>{
   
   const {idMensaje} = req.params
   const estadoPuja =  "Aceptado"
-  let pujaAceptada;
+  // let pujaAceptada;
   try {
     if(estadoPuja.includes("Aceptado")){
-      pujaAceptada = true
+      pujaAceptada = "Aceptado"
     }else{
-      pujaAceptada = false
+      pujaAceptada = "Pendiente"
     }
     const prueba=  await FormContact.findByIdAndUpdate(idMensaje, {
       estadoPuja: pujaAceptada
@@ -248,9 +248,10 @@ router.post("/:idMensaje/update", isLoggedIn,isVendedor, async(req,res,next)=>{
 });
 
 //POST => Eliminar Mensajes de la BD
-router.post("/:idMensaje/delete", isLoggedIn, isVendedor ,async (req, res, next) => {
+router.post("/:idMensaje/delete", isLoggedIn, async (req, res, next) => {
   const {idMensaje} = req.params
   try {
+      
       await FormContact.findByIdAndDelete(idMensaje);
       res.redirect("/user/perfVendedor")
 
