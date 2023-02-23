@@ -13,8 +13,35 @@ a {
 }
 
 .ml-5{
-  margin-left: 15rem;
+  margin-left: 5rem;
 }
+
+.mr-5{
+  margin-right: 5rem;
+}
+.border-card{
+  border-left: solid #353434;
+}
+
+.btn-circle.btn-xl {
+  width: 150px;
+  height: 70px;
+  padding: 10px 16px;
+  border-radius: 35px;
+  font-size: 30px;
+  line-height: 1.33;
+}
+
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
+}
+
 
 /* h1 {
   color: 15px;
