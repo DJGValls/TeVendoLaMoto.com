@@ -8,8 +8,8 @@
 
     {{#each todosLosMensajes}}
           <div id="product">
+          <h2>{{this.producto.nombre}}</h2>
           <h2>Puja:{{this.mensaje}}€</h2>
-          <h2>{{allProduct.nombre}}</h2>
           <h3>{{this.estadoPuja}}</h3>
             
           <form action="/user/{{this._id}}/update" method="post">

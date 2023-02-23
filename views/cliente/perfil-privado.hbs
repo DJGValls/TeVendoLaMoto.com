@@ -4,29 +4,25 @@
 
 <a href="/auth/logout">Cerrar sesion</a>
 
-
-{{! Contenedor Mensajes de clientes }}
  <div>
-    {{! Bucle de mensajes }}
     <h1>Bucle de mensajes de clientes</h1>
-          <div>
-            {{#if valorPuja}}
-              <button>Comprar</button>
-              <p>{{this.valorPuja}}</p>
-             {{else}}
-            {{/if}}
-          </div>
     {{#each todosLosMensajes}} 
+          <div>
+          </div>
     
        <div id="product">
-          <h2>{{this.nombre}}</h2>
+          <h2>{{this.producto.nombre}}</h2>
           <h2>Puja:{{mensaje}}€</h2>
           <h3>{{this.estadoPuja}}</h3>
           <form action="/{{this._id}}/delete" method="post">
             <button>Anular puja</button>
+            {{#if ../valorPuja}}
+              <button>Comprar</button>
+             {{else}}
+            {{/if}}
           </form>
        </div>
-
+  
     {{/each}}
        
   </div> 
