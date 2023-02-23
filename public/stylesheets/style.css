@@ -12,6 +12,10 @@ a {
   background-color: rgb(54, 54, 54);
 }
 
+.ml-5{
+  margin-left: 15rem;
+}
+
 /* h1 {
   color: 15px;
 } */

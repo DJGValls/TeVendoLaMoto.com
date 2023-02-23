@@ -1,31 +1,32 @@
-<div>
+<div class="d-flex flex-row mt-3">
+
+  {{!-- contenedor mensajes --}}
+  <div class ="d-flex flex-column justify-content-start flex-wrap">
   {{#each todosLosMensajes}}
-    <div class="d-flex flex-column"></div>
-      <div class=" card shadow-lg p-3 mt-5 bg-white rounded" style="width: 14rem;">
+    <div class=" card shadow-lg p-3 pb-0 bg-white rounded" style="width: 16rem;">
           <h2>{{this.producto.nombre}}</h2>
-          <h2>Puja:{{this.mensaje}}€</h2>
-          <h3>{{this.estadoPuja}}</h3>
-            
-          <form action="/user/{{this._id}}/update" method="post">
-            <button>Aceptar</button>
-          </form> 
-          <form action="{{this._id}}/delete" method="post">
-            <button>Rechazar</button>
-          </form>
-      </div>
+          <h4>Puja:{{this.mensaje}}€</h4>
+          <h5>{{this.estadoPuja}}</h5>
+          <div class="d-flex flex-row justify-content-center ">
+            <form action="/user/{{this._id}}/update" method="post">
+            <button class="btn btn-success">Aceptar</button>
+            </form> 
+            <form action="{{this._id}}/delete" method="post">
+            <button class="btn btn-danger">Rechazar</button>
+            </form>
+          </div>
     </div>
-
     {{/each}}
-  {{! contenedor de perfil }} 
-
-  <div class="d-flex flex-row justify-content-around flex-wrap">
+  </div>
+{{!-- contenedor prductos --}}
+  <div class="d-flex flex-row justify-content-evenly flex-wrap ml-5">
     {{#each allProduct}}
     <div class="card shadow-lg p-1 mt-5 mb-5 bg-white rounded" style="width: 20rem;">
       <img class="card-img-top" src= {{this.img}} alt="img" height="250rem">
         <div class="card-body pb-0 bg-gradient bg-opacity-75">
           <div class="d-flex flex-column align-items-center">
             <h3>{{this.nombre}}</h3>
-            <h5>{{this.precio}}€</h2>
+            <h4>{{this.precio}}€</h4>
             <p>{{this.descripcion}}</p>
           </div>
           <div class="d-flex flex-row justify-content-center align-content-end">
@@ -48,5 +49,8 @@
       <a href="/auth/logout">Cerrar sesion</a>
    </div>
 </div>
+</div>
+
+
 
   
