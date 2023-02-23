@@ -1,27 +1,31 @@
-<div>
-    <h2>EDITAR PRODUCTO</h2>
+<div class="mt-5 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-12">
+  <div class="card shadow-lg col-lg-4 mt-5 offset-lg-4 col-md-6 offset-md-3 col-12  bg-white rounded" style="width: 20rem;">
+    <img class="card-img-top" src="{{img}}" alt="cover" width="300px">
+    <form class="form-horizontal" action="/product/{{_id}}/edit" method="post">
+      <br>
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input class="form-control" type="text" name="nombre" value="{{nombre}}" />
+      </div>
+        <br>
+      <div class="form-group">
+        <label for="precio">Precio</label>
+        <input class="form-control" type="number" name="precio" value="{{precio}}" />
+      </div>
+        <br>
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <textarea class="form-control" name="descripcion"
+            rows="2" cols="20"></textarea>
+      </div>
+      <br />
+      <button class="btn btn-warning mb-2">Actualizar</button>
+      <br>
+    </form>
 
-  <form action="/product/{{_id}}/edit" method="post">
+    <a href="/user/perfVendedor">
+      <button class="btn btn-warning mb-2">Atras</button>
+    </a>
 
-    <img src="{{img}}" alt="cover" width="300px">
-    <br>
-    <label for="nombre">Nombre</label>
-    <input type="text" name="nombre" value="{{nombre}}" />
-    <br />
-    <label for="precio">Precio</label>
-    <input type="number" name="precio" value="{{precio}}" />
-    <br>
-    <label for="descripcion">Descripcion</label>
-    <input type="text" name="descripcion" value="{{descripcion}}" />
-    <br />
-    
-    <button>Actualizar</button>
-    <br>
-    
-  </form>
-
-  <a href="/user/perfVendedor">
-    <button>Atras</button>
-  </a>
-
+  </div>
 </div>

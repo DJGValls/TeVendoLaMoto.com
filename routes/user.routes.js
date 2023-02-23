@@ -238,9 +238,15 @@ router.post("/:idMensaje/update", isLoggedIn,isVendedor, async(req,res,next)=>{
 router.post("/:idMensaje/delete", isLoggedIn, async (req, res, next) => {
   const {idMensaje} = req.params
   try {
-      
+    
+    if (req.session.activeUser.role === "Cliente") {
+      await FormContact.findByIdAndDelete(idMensaje);
+      res.redirect("/user/perfCliente")
+    }else{
       await FormContact.findByIdAndDelete(idMensaje);
       res.redirect("/user/perfVendedor")
+    }
+
 
   } catch (error) {
     next(error);
