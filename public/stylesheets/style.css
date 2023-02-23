@@ -1,28 +1,69 @@
 body {
   margin: 0px;
-  padding: 10px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /* padding: 10px; */
+
 }
 
 a {
   color: #00b7ff;
 }
 
-h1 {
-  color: 15px;
+.bg-dark{
+  background-color: rgb(54, 54, 54);
 }
 
-#content-nav{
+.ml-5{
+  margin-left: 5rem;
+}
+
+.mr-5{
+  margin-right: 5rem;
+}
+.border-card{
+  border-left: solid #353434;
+}
+
+.btn-circle.btn-xl {
+  width: 150px;
+  height: 70px;
+  padding: 10px 16px;
+  border-radius: 35px;
+  font-size: 30px;
+  line-height: 1.33;
+}
+
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
+}
+
+
+/* h1 {
+  color: 15px;
+} */
+
+/* #content-nav{
   display: flex;
   justify-content: row;
   gap: 30px;
   margin-bottom: 20px;
+} */
+
+/* .nav-link{
+  font-weight: 600;
+
 }
 
 #container-product{
   display: flex;
   justify-content: row;
   gap: 30px;
+  
 }
 
 #product{
@@ -38,4 +79,4 @@ h1 {
 #container-vendedor{
   display: flex;
   flex-direction: row;
-}
+} */

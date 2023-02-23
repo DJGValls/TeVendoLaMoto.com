@@ -1,15 +1,16 @@
-{{!-- <img class="card-img-top" src="{{details.image}}" alt="cover" width="100px"> --}}
 
 <div class="card-body">
 
+  <img src="{{oneProduct.img}}" alt="cover" width="300px">
   <h1>{{oneProduct.nombre}}</h1>
   {{!-- <h3>Autor: {{details.author.name}} de {{details.author.country}}</h3> --}}
   <h3>{{oneProduct.precio}}</h3>
   <p>{{oneProduct.descripcion}}</p>
-  <p>{{oneProduct.vendedor}}</p>
+  <p>{{oneProduct.vendedor.username}}</p>
   <br />
   
-  
-  {{!-- <a href=""><button>Contactar con Vendedor</button></a> --}}
+  <a href="/user/perfCliente">
+    <button>Atras</button>
+  </a>
 
 </div>

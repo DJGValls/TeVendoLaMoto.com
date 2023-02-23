@@ -3,6 +3,8 @@
 
   <form action="/product/{{_id}}/edit" method="post">
 
+    <img src="{{img}}" alt="cover" width="300px">
+    <br>
     <label for="nombre">Nombre</label>
     <input type="text" name="nombre" value="{{nombre}}" />
     <br />
@@ -17,5 +19,9 @@
     <br>
     
   </form>
+
+  <a href="/user/perfVendedor">
+    <button>Atras</button>
+  </a>
 
 </div>

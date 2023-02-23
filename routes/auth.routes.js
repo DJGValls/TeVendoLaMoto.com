@@ -53,7 +53,7 @@ router.post(
     if (CIF_REGEX.test(cif) === false) {
       res.status(401).render("auth/vendedor-signup-form.hbs", {
       errorMessage:
-      "El cif debe tener minimo 9 caracteres y el primero de ellos debe ser una letra",
+      "El cif debe tener minimo 8 caracteres y el primero de ellos debe ser una letra",
     });
       return;
     }
@@ -62,7 +62,7 @@ router.post(
     const TLF_REGEX = /\+?(\s*\d{0,2})()\1[1234567890]{0,2}\2[1234567890 .-]{9,13}/;
     if(TLF_REGEX.test(telefono) === false){
       res.status(401).render("auth/vendedor-signup-form.hbs", {
-        errorMessage: "El teléfono debe comenzar por +34 y tener 9 números."
+        errorMessage: "El teléfono debe tener 9 números."
       });
       return;
     }
@@ -178,7 +178,7 @@ router.get("/login", (req, res, next) => {
 
 // POST "/auth/login" enviar credenciales y crear sesion activa
 router.post("/login", async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { email, password } = req.body;
 
   // validaciones
@@ -205,7 +205,7 @@ router.post("/login", async (req, res, next) => {
       password,
       foundUser.password
     );
-    console.log("isPasswordCorrect", isPasswordCorrect);
+    // console.log("isPasswordCorrect", isPasswordCorrect);
     if (isPasswordCorrect === false) {
       res.render("auth/login-form.hbs", {
         errorMessage: "Contraseña incorrecta, vuelva a intentarlo",

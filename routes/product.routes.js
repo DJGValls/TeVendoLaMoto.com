@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-// const uploader = require("../middlewares/cloudinary.js")
+const uploader = require("../middlewares/cloudinary.js")
 
 const Product = require("../models/Product.model.js");
+const FormContact = require("../models/form-contac.model.js")
 const {
   isLoggedIn,
   isCliente,
@@ -15,18 +16,34 @@ router.get("/create-product", isLoggedIn, isVendedor, (req, res, next) => {
 });
 
 // POST => Crea un producto en la DB
-router.post("/create-product", isLoggedIn, isVendedor, async (req, res, next) => {
+router.post("/create-product",uploader.single("img"), isLoggedIn, isVendedor, async (req, res, next) => {
   const { nombre, precio, descripcion, img } = req.body;
 
-  // console.log(req.file.path); //=> NOS MUESTRA LA URL DE LA IMAGEN DE CLOUDINARY
+  if (nombre === "" || precio === "" || descripcion === "") {
+    res.status(401).render("producto/nuevo-producto-form.hbs", {
+      errorMessage: "Por favor, Todos los campos deben estar llenos",
+    });
+    return;
+  }
 
+  
+  
+  
   try {
-    const response = await Product.create({
+    // console.log(req.file) // el url de cloudinary
+    if (req.file === undefined) {
+      res.status(401).render("producto/nuevo-producto-form.hbs", {
+        errorMessage: "Por favor, instroduzca una imagen para su producto",
+      });
+      return;
+    }
+
+    await Product.create({
       nombre: nombre,
       precio: precio,
       descripcion: descripcion,
       vendedor: req.session.activeUser._id ,
-      // img: req.body.ult
+      img: req.file.path
     });
 
     
@@ -37,11 +54,11 @@ router.post("/create-product", isLoggedIn, isVendedor, async (req, res, next) =>
 });
 
 //GET => renderiza una vista del detalle del producto
-router.get("/:productId/details", isLoggedIn, async (req, res, next) => {
+router.get("/:productId/details", isLoggedIn, isCliente, async (req, res, next) => {
   try {
     const { productId } = req.params;
 
-    const response = await Product.findById(productId);
+    const response = await Product.findById(productId).populate("vendedor");
     res.render("producto/detalle-producto.hbs", {
       oneProduct: response,
     });
@@ -73,7 +90,7 @@ router.post("/:productId/edit" , isLoggedIn, isVendedor, async(req,res,next)=>{
             descripcion: descripcion
         })
 
-        res.redirect(`/product/${productId}/details`)
+        res.redirect("/user/perfVendedor")
 
     } catch (error) {
         next(error)
@@ -92,6 +109,44 @@ router.post("/:productId/delete", isLoggedIn, isVendedor, async(req,res,next)=>{
     } catch (error) {
         next (error)
     }
+})
+
+//GET => Renderiza la vista del formulario de contacto
+router.get("/:productId/contact" ,isLoggedIn, isCliente, async (req,res,next)=>{
+
+  try {
+
+    const {productId} = req.params
+    const product = await Product.findById(productId).populate("vendedor")
+    
+    res.render("producto/nuevo-contacto-form.hbs", product);
+    
+  } catch (error) {
+    next(error)
+  }
+ } )
+//POST => Crear un mensaje en la BD
+router.post("/:productId/contact", isLoggedIn,isCliente, async (req,res,next)=>{
+  try {
+
+    const {productId} = req.params
+    const {mensaje,estadoPuja} = req.body
+    const vendedorProducto = await Product.findById(productId).populate("vendedor")
+    
+    await FormContact.create({
+      cliente: req.session.activeUser._id,
+      mensaje: mensaje,
+      producto: productId,
+      vendedor: vendedorProducto.vendedor._id,
+      estadoPuja: estadoPuja
+    })
+    // console.log(vendedorProducto.vendedor._id)
+
+    res.redirect("/user/perfCliente")
+    
+  } catch (error) {
+    next (error)
+  }
 })
 
 

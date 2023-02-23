@@ -21,7 +21,7 @@ const productSchema = new Schema(
       type:mongoose.Schema.Types.ObjectId,
       ref: "User"
     } ,
-    
+        
     img: String //todo: URL DE CLOUDINARY
   },
   {
@@ -30,6 +30,6 @@ const productSchema = new Schema(
   }
 );
 
-const Product = model("Producto", productSchema);
+const Product = model("Product", productSchema);
 
 module.exports = Product;
