@@ -26,15 +26,18 @@ router.post("/create-product",uploader.single("img"), isLoggedIn, isVendedor, as
     return;
   }
 
-  if (img === undefined) {
-    res.status(401).render("producto/nuevo-producto-form.hbs", {
-      errorMessage: "Por favor, instroduzca una imagen para su producto",
-    });
-    return;
-  }
-
-
+  
+  
+  
   try {
+    // console.log(req.file) // el url de cloudinary
+    if (req.file === undefined) {
+      res.status(401).render("producto/nuevo-producto-form.hbs", {
+        errorMessage: "Por favor, instroduzca una imagen para su producto",
+      });
+      return;
+    }
+
     await Product.create({
       nombre: nombre,
       precio: precio,
@@ -137,7 +140,7 @@ router.post("/:productId/contact", isLoggedIn,isCliente, async (req,res,next)=>{
       vendedor: vendedorProducto.vendedor._id,
       estadoPuja: estadoPuja
     })
-    console.log(vendedorProducto.vendedor._id)
+    // console.log(vendedorProducto.vendedor._id)
 
     res.redirect("/user/perfCliente")
     

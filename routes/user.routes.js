@@ -18,7 +18,7 @@ router.get("/perfVendedor", isLoggedIn, isVendedor, async (req, res, next) => {
   const mensaje = await FormContact.find({
     vendedor: `${req.session.activeUser._id}`,
   }).populate("vendedor").populate("producto");
-  console.log(mensaje);
+  // console.log(mensaje);
 
   const response = await Product.find({
     vendedor: `${req.session.activeUser._id}`,
@@ -122,7 +122,7 @@ router.get("/perfCliente/", isLoggedIn, isCliente, async (req, res, next) => {
 
     const response = await Product.find();
     const valorPuja = JSON.stringify(mensajes).includes("Aceptado")
-    console.log(mensajes);
+    // console.log(mensajes);
     
     res.render("cliente/perfil-privado.hbs", {
       allProduct: response,
