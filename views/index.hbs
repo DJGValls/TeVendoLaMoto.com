@@ -1,15 +1,18 @@
-<div id="container-product">
-    
+    <div class="d-flex flex-row justify-content-evenly flex-wrap">
     {{#each allProduct}}
-            <div id="product">
-                <img src={{this.img}} alt="IA" width="100px">
-                <br>
-                <h3>{{this.nombre}}</h3>
-                <h5>{{this.precio}}</h2>
-                <br>
-                <p>{{this.descripcion}}</p>
-                <p>{{this.vendedor.username}}</p>
-            </div>   
-    {{/each}}
+        <div class="card shadow-lg p-1 mt-5 mb-5 bg-white rounded" style="width: 18rem;">
+            <a href="/product/{{this._id}}/details" class="text-decoration-none">
+                <div class="card-body bg-gradient bg-opacity-75">
+                    <img class="card-img-top" src={{this.img}} alt="img" width="100px">
+                    <div class="d-flex flex-column mt-3 align-items-center text-dark">
+                        <h3 class="mb-4">{{this.nombre}}</h3>
+                        <h5 class="mb-4">Precio: {{this.precio}}€</h2>
+                        <p class=" mb-3">{{this.descripcion}}</p>
+                        <p>{{this.vendedor.username}}</p>
+                    </div>
 
-</div>
+                </div>   
+            </a>
+        </div>
+    {{/each}}
+    </div>
