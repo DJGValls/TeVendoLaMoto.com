@@ -17,10 +17,15 @@ a {
 }
 
 .mr-5{
-  margin-right: 5rem;
+  margin-right: 2rem;
 }
 .border-card{
   border-left: solid #353434;
+}
+
+.boton-añadir{
+  padding-top: 1.5rem;
+  width: 20%;
 }
 
 .btn-circle.btn-xl {

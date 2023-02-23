@@ -1,46 +1,46 @@
-<h2>paginda de perfil privado de cliente</h2>
-
-<a href="/user/perfCliente/update">Editar Perfil cliente</a>
-
-<a href="/auth/logout">Cerrar sesion</a>
-
- <div>
-    <h1>Bucle de mensajes de clientes</h1>
-    {{#each todosLosMensajes}}   
-       <div id="product">
-          <h2>{{this.producto.nombre}}</h2>
-          <h2>Puja:{{mensaje}}€</h2>
-          <h3>{{this.estadoPuja}}</h3>
-            <form action="/{{this._id}}/delete" method="post">
-              <button>Anular puja</button>
-              {{#if ../valorPuja}}
-                <button>Comprar</button>
-              {{else}}
-              {{/if}}
-            </form>
-       </div>
-    {{/each}}
-  </div> 
-
-
-<div id="container-product">
-    {{#each allProduct}}
-      <a href="/product/{{this._id}}/details">
-        <div id="product">
-          <img src={{this.img}} alt="img" width="100px">
-          <br>
-          <h3>{{this.nombre}}</h3>
-          <h5>{{this.precio}}</h2>
-          <br>
-          <p>{{this.descripcion}}</p>
-            <div class="d-flex justify-content-center">
-              <a href="/product/{{this._id}}/contact">
-              <button class="btn btn-info">Contactar con Vendedor</button>
-              </a>
+<div class="d-flex flex-row mt-3">
+{{!-- contenedor mensajes --}}
+  <div class ="d-flex flex-column justify-content-start flex-wrap">
+      {{#each todosLosMensajes}}   
+        <div class=" card shadow-lg mt-3 p-3 pb-0 bg-white rounded" style="width: 16rem;">
+            <h2 class="mb-4">{{this.producto.nombre}}</h2>
+            <h2>Puja:{{mensaje}}€</h2>
+            <h3>{{this.estadoPuja}}</h3>
+            <div class="d-flex flex-row justify-content-center justify-content-evenly mt-3">
+              <form action="/user/{{this._id}}/delete" method="post">
+                <button class="btn btn-danger">Anular puja</button>
               </form>
+                {{#if ../valorPuja}}
+                  <button class="btn btn-success">Comprar</button>
+                {{else}}
+                {{/if}}
             </div>
-          </div>
-        </a>
+        </div>
       {{/each}}
-   </div> 
+    </div> 
+{{!-- contenedor prductos --}}
+  <div class="d-flex flex-row justify-content-start flex-wrap ml-5">
+      {{#each allProduct}}
+      <div class="card shadow-lg p-1 mt-3 mr-5  bg-white rounded" style="width: 20rem;">
+        <a href="/product/{{this._id}}/details">
+            <img class="card-img-top" src={{this.img}} alt="img" height="250rem">
+            <div class="card-body pb-0 bg-gradient bg-opacity-75">
+              <div class="d-flex flex-column align-items-center">
+                <h3>{{this.nombre}}</h3>
+                <h5>{{this.precio}}</h2>
+                <p>{{this.descripcion}}</p>
+              </div>
+                <div class="d-flex flex-row justify-content-evenly align-content-end">
+                  <a href="/product/{{this._id}}/contact">
+                  <button class="btn btn-info">Contactar con Vendedor</button>
+                  </a>
+                  </form>
+                </div>
+            </div>
+          </a>
+      </div>
+        {{/each}}
+    </div> 
+  </div>
+
 </div>
