@@ -1,7 +1,6 @@
 <div id="container-product">
     
     {{#each allProduct}}
-        <a href="/product/{{this._id}}/details">
             <div id="product">
                 <img src={{this.img}} alt="IA" width="100px">
                 <br>
@@ -11,7 +10,6 @@
                 <p>{{this.descripcion}}</p>
                 <p>{{this.vendedor.username}}</p>
             </div>   
-        </a>
     {{/each}}
 
 </div>

@@ -10,14 +10,23 @@
     <label for="precio">Precio</label>
     <input type="number" name="precio" />
     <br />
-    <label for="descripcion">Descripcion</label>
-    <input type="text" name="descripcion" />
+    <label for="descripcion">Descripción:</label>
+    <textarea name="descripcion"
+      rows="2" cols="20"></textarea>
     <br />
     <label for="img">Imagen</label>
     <input type="file" name="img" />
     <br />
     <button>Agregar</button>
 
+    {{#if this.errorMessage}}
+      <p class="error">{{this.errorMessage}}</p>
+    {{/if}}
+
   </form>
+
+  <a href="/user/perfVendedor">
+    <button>Atras</button>
+  </a>
 
 </div>

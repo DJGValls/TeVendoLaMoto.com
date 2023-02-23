@@ -19,7 +19,20 @@ router.get("/create-product", isLoggedIn, isVendedor, (req, res, next) => {
 router.post("/create-product",uploader.single("img"), isLoggedIn, isVendedor, async (req, res, next) => {
   const { nombre, precio, descripcion, img } = req.body;
 
-  // console.log(req.file.path); //=> NOS MUESTRA LA URL DE LA IMAGEN DE CLOUDINARY
+  if (nombre === "" || precio === "" || descripcion === "") {
+    res.status(401).render("producto/nuevo-producto-form.hbs", {
+      errorMessage: "Por favor, Todos los campos deben estar llenos",
+    });
+    return;
+  }
+
+  if (img === undefined) {
+    res.status(401).render("producto/nuevo-producto-form.hbs", {
+      errorMessage: "Por favor, instroduzca una imagen para su producto",
+    });
+    return;
+  }
+
 
   try {
     await Product.create({
@@ -38,7 +51,7 @@ router.post("/create-product",uploader.single("img"), isLoggedIn, isVendedor, as
 });
 
 //GET => renderiza una vista del detalle del producto
-router.get("/:productId/details", isLoggedIn, async (req, res, next) => {
+router.get("/:productId/details", isLoggedIn, isCliente, async (req, res, next) => {
   try {
     const { productId } = req.params;
 
@@ -74,7 +87,7 @@ router.post("/:productId/edit" , isLoggedIn, isVendedor, async(req,res,next)=>{
             descripcion: descripcion
         })
 
-        res.redirect(`/product/${productId}/details`)
+        res.redirect("/user/perfVendedor")
 
     } catch (error) {
         next(error)
