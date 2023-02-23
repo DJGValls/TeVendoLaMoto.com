@@ -1,32 +1,37 @@
 {{! <h2>Pagina de creacion de un producto</h2> }}
 
-<div>
+<div class="mt-5 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-12">
+        <form class="form-horizontal" action="/product/create-product" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input class="form-control" type="text" name="nombre" placeholder="introduzca un nombre de producto"/>
+          </div>
+          <br />
+          <div class="form-group">
+            <label for="precio">Precio</label>
+            <input class="form-control" type="number" name="precio" placeholder="ponga precio a su producto"/>
+          </div>
+          <br />
+          <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea class="form-control" name="descripcion"
+              rows="2" cols="20" placeholder="describa aquí su producto"></textarea>
+          </div>
+          <br />
+          <div class="form-group">
+            <label for="img">Seleccione una imagen de su computadora</label>
+            <input class="form-control" type="file" name="img"/>
+          </div>
+          <br />
+          <button class="btn btn-warning mb-2">Agregar</button>
 
-  <form action="/product/create-product" method="post" enctype="multipart/form-data">
+          {{#if this.errorMessage}}
+            <p class="error">{{this.errorMessage}}</p>
+          {{/if}}
 
-    <label for="nombre">Nombre</label>
-    <input type="text" name="nombre" />
-    <br />
-    <label for="precio">Precio</label>
-    <input type="number" name="precio" />
-    <br />
-    <label for="descripcion">Descripción:</label>
-    <textarea name="descripcion"
-      rows="2" cols="20"></textarea>
-    <br />
-    <label for="img">Imagen</label>
-    <input type="file" name="img"/>
-    <br />
-    <button>Agregar</button>
+        </form>
 
-    {{#if this.errorMessage}}
-      <p class="error">{{this.errorMessage}}</p>
-    {{/if}}
-
-  </form>
-
-  <a href="/user/perfVendedor">
-    <button>Atras</button>
-  </a>
-
+        <a href="/user/perfVendedor">
+          <button class="btn btn-warning mb-2">Atras</button>
+        </a>
 </div>
