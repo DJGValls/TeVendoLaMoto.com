@@ -34,6 +34,20 @@ const updateLocals = (req, res, next) => {
   } else{ 
     res.locals.isUserActive = true;
   }
+
+  if (req.session.activeUser !== undefined && req.session.activeUser.role === "Cliente") {
+    res.locals.isUserCliente = true;
+  } else{ 
+    res.locals.isUserCliente = false;
+  }
+
+  if (req.session.activeUser !== undefined && req.session.activeUser.role === "Vendedor") {
+    res.locals.isUserVendedor= true;
+  } else{ 
+    res.locals.isUserVendedor = false;
+  }
+
+
   next();
 };
 

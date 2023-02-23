@@ -1,33 +1,29 @@
-<h2>Pagina de registro de usuarios vendedores</h2>
-{{!-- 
+<div id="registro" class="mt-5 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-12">
 
-    <label for="username">Nombre de empresa: {{userVendedor.username}}</label>
-    <input type="text" name="username" value="{{userVendedor.username}}">
+    <h2 class="text-center">Registro de Vendedor</h2>
     <br>
-    <label for="email">Correo Electronico: {{userVendedor.email}}</label>
-    <input type="text" name="email" value="{{userVendedor.email}}"> --}}
+    {{!-- <img class="img-fluid mx-auto d-block rounded-circle"
+      src="../images/logo.png" width="300"/> --}}
+    <form action="/auth/signup/vendedor" method="post">
+        <div class="form-group">
+            <label for="cif">CIF</label>
+            <input class="form-control" type="text" name="cif" value="{{userVendedor.cif}}" placeholder="introduzca el Cif de su empresa">
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="telefono">Telefono de Contacto</label>
+            <input class="form-control" type="number" name="telefono" value="{{userVendedor.telefono}}" placeholder="introduzca un telefono de contacto">
+        </div>
+        {{#if this.errorMessage}}
+            <p class="error">{{this.errorMessage}}</p>
+        {{/if}}
+        <br>
+        <button class="btn btn-warning mb-2" >Registrar</button>
+    </form>
+    <form action= "/user/delete" method="post" >
+        <button class="btn btn-warning mb-2" >Atras</button>
+    </form>
 
 
 
-<form action="/auth/signup/vendedor" method="post">
-    
-    <label for="cif">CIF</label>
-    <input type="text" name="cif" value="{{userVendedor.cif}}">
-    <br>
-    <label for="telefono">Telefono de Contacto</label>
-    <input type="number" name="telefono" value="{{userVendedor.telefono}}">
-    <br>
-    <button>Registrar</button>
-    <br>
-    {{#if this.errorMessage}}
-        <p>{{this.errorMessage}}</p>
-    {{/if}}
-    <p></p>
-
-</form>
-
-
-
-<form action= "/delete" method="post" >
-   <button>Atras</button>
-</form>
+</div>

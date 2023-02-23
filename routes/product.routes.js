@@ -19,9 +19,25 @@ router.get("/create-product", isLoggedIn, isVendedor, (req, res, next) => {
 router.post("/create-product",uploader.single("img"), isLoggedIn, isVendedor, async (req, res, next) => {
   const { nombre, precio, descripcion, img } = req.body;
 
-  console.log(req.file.path); //=> NOS MUESTRA LA URL DE LA IMAGEN DE CLOUDINARY
+  if (nombre === "" || precio === "" || descripcion === "") {
+    res.status(401).render("producto/nuevo-producto-form.hbs", {
+      errorMessage: "Por favor, Todos los campos deben estar llenos",
+    });
+    return;
+  }
 
+  
+  
+  
   try {
+    // console.log(req.file) // el url de cloudinary
+    if (req.file === undefined) {
+      res.status(401).render("producto/nuevo-producto-form.hbs", {
+        errorMessage: "Por favor, instroduzca una imagen para su producto",
+      });
+      return;
+    }
+
     await Product.create({
       nombre: nombre,
       precio: precio,
@@ -38,7 +54,7 @@ router.post("/create-product",uploader.single("img"), isLoggedIn, isVendedor, as
 });
 
 //GET => renderiza una vista del detalle del producto
-router.get("/:productId/details", isLoggedIn, async (req, res, next) => {
+router.get("/:productId/details", isLoggedIn, isCliente, async (req, res, next) => {
   try {
     const { productId } = req.params;
 
@@ -74,7 +90,7 @@ router.post("/:productId/edit" , isLoggedIn, isVendedor, async(req,res,next)=>{
             descripcion: descripcion
         })
 
-        res.redirect(`/product/${productId}/details`)
+        res.redirect("/user/perfVendedor")
 
     } catch (error) {
         next(error)
@@ -102,25 +118,29 @@ router.get("/:productId/contact" ,isLoggedIn, isCliente, async (req,res,next)=>{
 
     const {productId} = req.params
     const product = await Product.findById(productId).populate("vendedor")
-  
+    
     res.render("producto/nuevo-contacto-form.hbs", product);
     
   } catch (error) {
     next(error)
   }
  } )
-
+//POST => Crear un mensaje en la BD
 router.post("/:productId/contact", isLoggedIn,isCliente, async (req,res,next)=>{
   try {
 
     const {productId} = req.params
-    const {mensaje} = req.body
+    const {mensaje,estadoPuja} = req.body
+    const vendedorProducto = await Product.findById(productId).populate("vendedor")
     
     await FormContact.create({
+      cliente: req.session.activeUser._id,
       mensaje: mensaje,
-      producto: productId
+      producto: productId,
+      vendedor: vendedorProducto.vendedor._id,
+      estadoPuja: estadoPuja
     })
-    console.log(productId)
+    // console.log(vendedorProducto.vendedor._id)
 
     res.redirect("/user/perfCliente")
     

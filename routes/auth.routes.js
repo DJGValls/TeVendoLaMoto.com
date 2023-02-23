@@ -178,7 +178,7 @@ router.get("/login", (req, res, next) => {
 
 // POST "/auth/login" enviar credenciales y crear sesion activa
 router.post("/login", async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { email, password } = req.body;
 
   // validaciones
@@ -205,7 +205,7 @@ router.post("/login", async (req, res, next) => {
       password,
       foundUser.password
     );
-    console.log("isPasswordCorrect", isPasswordCorrect);
+    // console.log("isPasswordCorrect", isPasswordCorrect);
     if (isPasswordCorrect === false) {
       res.render("auth/login-form.hbs", {
         errorMessage: "Contraseña incorrecta, vuelva a intentarlo",

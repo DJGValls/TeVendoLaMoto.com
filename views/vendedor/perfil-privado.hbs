@@ -1,44 +1,56 @@
-{{! <h2>Pagina de Perfil privado del VENDEDOR</h2> }}
+<div class="d-flex flex-row mt-3">
 
-<div id="container-vendedor">
-
-  {{! Contenedor Mensajes de clientes }}
-  <div>
-    {{! Bucle de mensajes }}
-    <h1>Bucle de mensajes de clientes</h1>
-
+  {{!-- contenedor mensajes --}}
+  <div class ="d-flex flex-column justify-content-start flex-wrap">
+  {{#each todosLosMensajes}}
+    <div class=" card shadow-lg mt-5 p-3 pb-0 bg-white rounded" style="width: 16rem;">
+          <h2 class="mb-4">{{this.producto.nombre}}</h2>
+          <h4>Puja:{{this.mensaje}}€</h4>
+          <h5>{{this.estadoPuja}}</h5>
+          <div class="d-flex flex-row justify-content-center justify-content-evenly mt-3">
+            <form action="/user/{{this._id}}/update" method="post">
+            <button class="btn btn-success">Aceptar</button>
+            </form> 
+            <form action="{{this._id}}/delete" method="post">
+            <button class="btn btn-danger">Rechazar</button>
+            </form>
+          </div>
+    </div>
+    {{/each}}
   </div>
-
-  {{! contenedor de perfil }}
-   <div id="container-product">
-
+{{!-- contenedor prductos --}}
+  <div class="d-flex flex-row justify-content-evenly flex-wrap ml-5">
     {{#each allProduct}}
-      <div id="product">
-          <img src= {{this.img}} alt="img" width="100px">
-          <br>
-          <h3>{{this.nombre}}</h3>
-          <h5>{{this.precio}}</h2>
-          <br>
-          <p>{{this.descripcion}}</p>
-          <div class="d-flex justify-content-center">
+    <div class="card shadow-lg p-1 mt-5 mr-5 bg-white rounded" style="width: 20rem;">
+      <img class="card-img-top" src= {{this.img}} alt="img" height="250rem">
+        <div class="card-body pb-0 bg-gradient bg-opacity-75">
+          <div class="d-flex flex-column align-items-center">
+            <h3>{{this.nombre}}</h3>
+            <h4>{{this.precio}}€</h4>
+            <p>{{this.descripcion}}</p>
+          </div>
+          <div class="d-flex flex-row justify-content-evenly align-content-end">
             <a href="/product/{{this._id}}/edit">
             <button class="btn btn-info">Editar</button>
             </a>
             <form action="/product/{{this._id}}/delete" method="post">
-            <button class="btn btn-danger">Borrar</button>
+              <button class="btn btn-danger">Borrar</button>
             </form>
           </div>
-        </div>
+        </div> 
+    </div> 
       {{/each}}
-   </div> 
-   <div>
-      <a href="/product/create-product"><button>Añadir producto</button></a>
-      <br>
-      <a href="/user/perfVendedor/update">Editar Perfil Vendedor</a>
-      <br>
-      <a href="/auth/logout">Cerrar sesion</a>
+
+    <div>
+       <a href="/product/create-product">
+        <button type="button" class="btn btn-success btn-circle btn-xl">
+        <i class="fa fa-link"></i>Añadir
+        </button>
+        </a>
    </div>
-    <br>
-  
-  
 </div>
+</div>
+
+
+
+  

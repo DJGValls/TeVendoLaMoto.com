@@ -4,28 +4,43 @@
 
 <a href="/auth/logout">Cerrar sesion</a>
 
+ <div>
+    <h1>Bucle de mensajes de clientes</h1>
+    {{#each todosLosMensajes}}   
+       <div id="product">
+          <h2>{{this.producto.nombre}}</h2>
+          <h2>Puja:{{mensaje}}€</h2>
+          <h3>{{this.estadoPuja}}</h3>
+            <form action="/{{this._id}}/delete" method="post">
+              <button>Anular puja</button>
+              {{#if ../valorPuja}}
+                <button>Comprar</button>
+              {{else}}
+              {{/if}}
+            </form>
+       </div>
+    {{/each}}
+  </div> 
+
 
 <div id="container-product">
-    
     {{#each allProduct}}
-      <div id="product">
-          {{!-- <img src="/images/IA.jpg" alt="IA" width="100px"> --}}
+      <a href="/product/{{this._id}}/details">
+        <div id="product">
+          <img src={{this.img}} alt="img" width="100px">
           <br>
           <h3>{{this.nombre}}</h3>
           <h5>{{this.precio}}</h2>
           <br>
           <p>{{this.descripcion}}</p>
-          <div class="d-flex justify-content-center">
-            <a href="/product/{{this._id}}/contact">
-            <button class="btn btn-info">Contactar con Vendedor</button>
-            </a>
-            
-            </form>
+            <div class="d-flex justify-content-center">
+              <a href="/product/{{this._id}}/contact">
+              <button class="btn btn-info">Contactar con Vendedor</button>
+              </a>
+              </form>
+            </div>
           </div>
-        </div>
+        </a>
       {{/each}}
-
-      
    </div> 
-
 </div>
