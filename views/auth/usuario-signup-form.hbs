@@ -1,40 +1,31 @@
-<h2>Pagina de registro de todos los usuarios</h2>
-
-<form action="/auth/signup" method="post">
-
-    <label for="username">Nombre de Usuario:</label>
-    <input type="text" name="username">
-
-    <br>
-
-    <label for="email">Correo Electronico:</label>
-    <input type="email" name="email">
-
-    <br>
-
-    <label for="password">Contraseña:</label>
-    <input type="password" name="password">
-
-    <br>
-
-    <p>
-
-        Selecciona tipo de registro<br>
-
-        <label><input type="radio" name="role" value="Cliente" checked> Cliente</label><br>
-
-        <label><input type="radio" name="role" value="Vendedor"> Vendedor</label><br>
-
-        
-
-    </p>
-
-    {{#if this.errorMessage}}
-      <p class="error">{{this.errorMessage}}</p>
-    {{/if}}
-
-    <button>Registrarse</button>
-
-
-  </form>
+<div id="registro" class="mt-5 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-12">
+  <h2 class="text-center">Pagina de registro</h2>
+  <img class="img-fluid mx-auto d-block rounded"
+      src="../images/logo.png" />
+  <form action="/auth/signup" method="post">
+      <div class="form-group">
+        <label for="username">Nombre de Usuario:</label>
+        <input class="form-control" type="text" name="username" placeholder="introduce tu nombre de usuario/empresa">
+      </div>
+      <div class="form-group">
+        <label for="email">Correo Electronico:</label>
+        <input class="form-control" type="email" name="email" placeholder="introduce tu correo electrónico">
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input class="form-control" type="password" name="password" placeholder="introduce una clave de acceso">
+      </div>
+            <div class="form-group">
+        <p>
+            Selecciona tipo de registro<br>
+            <label><input type="radio" name="role" value="Cliente" checked> Cliente</label><br>
+            <label><input type="radio" name="role" value="Vendedor"> Vendedor</label><br>
+        </p>
+      </div>
+      {{#if this.errorMessage}}
+        <p class="error">{{this.errorMessage}}</p>
+      {{/if}}
+      <button class="btn btn-primary mb-2 ">Registrarse</button>
+    </form>
+</div>
 
