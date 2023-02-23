@@ -1,13 +1,7 @@
-{{! <h2>Pagina de Perfil privado del VENDEDOR</h2> }}
-
-<div id="container-vendedor">
-
-  {{! Contenedor Mensajes de clientes }}
-  <div>
-    {{! Bucle de mensajes }}
-
-    {{#each todosLosMensajes}}
-          <div id="product">
+<div>
+  {{#each todosLosMensajes}}
+    <div class="d-flex flex-column"></div>
+      <div class=" card shadow-lg p-3 mt-5 bg-white rounded" style="width: 14rem;">
           <h2>{{this.producto.nombre}}</h2>
           <h2>Puja:{{this.mensaje}}€</h2>
           <h3>{{this.estadoPuja}}</h3>
@@ -18,42 +12,41 @@
           <form action="{{this._id}}/delete" method="post">
             <button>Rechazar</button>
           </form>
-            
-       </div>
+      </div>
+    </div>
+
     {{/each}}
+  {{! contenedor de perfil }} 
 
-  </div>
-
-  {{! contenedor de perfil }}
-   <div id="container-product">
-
+  <div class="d-flex flex-row justify-content-around flex-wrap">
     {{#each allProduct}}
-      <div id="product">
-          <img src= {{this.img}} alt="img" width="100px">
-          <br>
-          <h3>{{this.nombre}}</h3>
-          <h5>{{this.precio}}€</h2>
-          <br>
-          <p>{{this.descripcion}}</p>
-          <div class="d-flex justify-content-center">
+    <div class="card shadow-lg p-1 mt-5 mb-5 bg-white rounded" style="width: 20rem;">
+      <img class="card-img-top" src= {{this.img}} alt="img" height="250rem">
+        <div class="card-body pb-0 bg-gradient bg-opacity-75">
+          <div class="d-flex flex-column align-items-center">
+            <h3>{{this.nombre}}</h3>
+            <h5>{{this.precio}}€</h2>
+            <p>{{this.descripcion}}</p>
+          </div>
+          <div class="d-flex flex-row justify-content-center align-content-end">
             <a href="/product/{{this._id}}/edit">
             <button class="btn btn-info">Editar</button>
             </a>
             <form action="/product/{{this._id}}/delete" method="post">
-            <button class="btn btn-danger">Borrar</button>
+              <button class="btn btn-danger">Borrar</button>
             </form>
           </div>
-        </div>
+        </div> 
+    </div> 
       {{/each}}
-   </div> 
-   <div>
+
+    <div>
       <a href="/product/create-product"><button>Añadir producto</button></a>
       <br>
       <a href="/user/perfVendedor/update">Editar Perfil Vendedor</a>
       <br>
       <a href="/auth/logout">Cerrar sesion</a>
    </div>
-    <br>
-  
-  
 </div>
+
+  
