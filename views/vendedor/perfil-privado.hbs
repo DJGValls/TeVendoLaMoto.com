@@ -1,5 +1,4 @@
 <div class="d-flex flex-row mt-3">
-
   {{!-- contenedor mensajes --}}
   <div class ="d-flex flex-column justify-content-start flex-wrap">
   {{#each todosLosMensajes}}
@@ -11,7 +10,7 @@
             <form action="/user/{{this._id}}/update" method="post">
             <button class="btn btn-success">Aceptar</button>
             </form> 
-            <form action="{{this._id}}/delete" method="post">
+            <form action="/user/{{this._id}}/delete" method="post">
             <button class="btn btn-danger">Rechazar</button>
             </form>
           </div>

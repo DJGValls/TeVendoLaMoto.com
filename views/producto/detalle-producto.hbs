@@ -1,16 +1,22 @@
 
-<div class="card-body">
+<div class="card shadow-lg col-lg-4 mt-5 offset-lg-4 col-md-6 offset-md-3 col-12  bg-white rounded" style="width: 20rem;">
 
-  <img src="{{oneProduct.img}}" alt="cover" width="300px">
-  <h1>{{oneProduct.nombre}}</h1>
-  {{!-- <h3>Autor: {{details.author.name}} de {{details.author.country}}</h3> --}}
-  <h3>{{oneProduct.precio}}</h3>
-  <p>{{oneProduct.descripcion}}</p>
-  <p>{{oneProduct.vendedor.username}}</p>
-  <br />
-  
-  <a href="/user/perfCliente">
-    <button>Atras</button>
-  </a>
+  <img class="card-img-top" src="{{oneProduct.img}}" alt="cover" width="300px">
+  <div class="card-body pb-0 bg-gradient bg-opacity-75">
+    <div class="d-flex flex-column align-items-center">
+      <h1>{{oneProduct.nombre}}</h1>
+      <h3>{{oneProduct.precio}}€</h3>
+      <p>{{oneProduct.descripcion}}</p>
+      <p>{{oneProduct.vendedor.username}}</p>
+      <br />
+      <div class="d-flex flex-row justify-content-evenly align-content-end">
+        <a href="/user/perfCliente">
+          <button class="btn btn-info">Atras</button>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
 
 </div>
