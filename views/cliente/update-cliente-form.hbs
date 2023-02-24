@@ -3,17 +3,17 @@
   <form action="/user/perfCliente/update" method="post">
     <div class="form-group">
       <label for="username">Nombre de Usuario</label>
-      <input input class="form-control" type="text" name="username" value="{{username}}">
+      <input class="form-control" type="text" name="username" value="{{username}}">
     </div>
     <br>
     <div class="form-group">
       <label for="email">Correo Electronico</label>
-      <input input class="form-control" type="text" name="email" value="{{email}}">
+      <input class="form-control" type="text" name="email" value="{{email}}">
     </div>
     <br>
     <div class="form-group">
       <label for="password">Introduce nueva contraseña</label>
-      <input input class="form-control" type="text" name="password">
+      <input class="form-control" type="text" name="password">
     </div>
     <br>
       {{#if this.errorMessage}}
@@ -22,6 +22,7 @@
     <br>
       <button class="btn btn-warning mb-2">Actualizar</button>
     <br>
+  </form>
     <a href="/user/perfCliente">
       <button class="btn btn-warning mb-2">Atras</button>
     </a>
@@ -29,6 +30,5 @@
     <form action= "/user/delete" method="post" >
       <button class="btn btn-danger mb-2">Eliminar Usuario</button>
     </form>
-  </form>
 </div>
 
