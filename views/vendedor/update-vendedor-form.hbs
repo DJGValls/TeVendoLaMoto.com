@@ -1,12 +1,12 @@
-<div class="mt-5 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-12">
+<div class="mt-5 pt-5 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-12">
     <form action="/user/perfVendedor/update" method="post">
         <div class="form-group">
-            <label for="username">Nombre de Usuario</label>
+            <label for="username">Nuevo nombre de Usuario</label>
             <input class="form-control" type="text" name="username" value="{{username}}">
         </div>
         <br>
         <div class="form-group">
-            <label for="email">Correo Electronico</label>
+            <label for="email">Nuevo correo Electronico</label>
             <input class="form-control" type="text" name="email" value="{{email}}">
         </div>
         <br>
@@ -29,12 +29,13 @@
         <p class="error">{{this.errorMessage}}</p>
         {{/if}}
         <br>
-        <button class="btn btn-warning mb-2">Actualizar</button>
+        <button class="btn btn-success mb-2">Actualizar</button>
     </form>
-        <a href="/user/perfVendedor">
-          <button class="btn btn-warning mb-2">Atras</button>
-        </a>
         <form action= "/user/delete" method="post" >
             <button class="btn btn-danger mb-2">Eliminar Usuario</button>
         </form>
+
+         <a href="/user/perfVendedor">
+          <button class="btn btn-warning mb-2">Atras</button>
+        </a>
 </div>
