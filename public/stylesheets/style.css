@@ -33,7 +33,9 @@ a {
 .pl-100{
   padding-left: 100px;
 }
-
+.space-footer{
+  height: 100px;
+}
 
 /* .btn-circle {
   width: 50px;
