@@ -28,7 +28,6 @@ router.get(
 
 );
 
-
 // POST "/auth/signup" enviar registro de vendedor
 router.post(
   "/signup/vendedor/",
