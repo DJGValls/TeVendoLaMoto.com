@@ -13,39 +13,37 @@ a {
 }
 
 .ml-5{
-  margin-left: 5rem;
+  margin-left: 3rem;
+}
+.ml-3{
+  margin-left: 2rem;
 }
 
 .mr-5{
   margin-right: 2rem;
 }
+.mr-7{
+  margin-top: 2rem;
+  margin-right: 12rem;
+}
 .border-card{
   border-left: solid #353434;
 }
 
-.boton-añadir{
-  padding-top: 1.5rem;
-  width: 10%;
+.pl-100{
+  padding-left: 100px;
 }
 
-.btn-circle.btn-xl {
-  width: 150px;
-  height: 70px;
-  padding: 10px 16px;
-  border-radius: 35px;
-  font-size: 30px;
-  line-height: 1.33;
-}
 
-.btn-circle {
+/* .btn-circle {
   width: 50px;
   height: 50px;
   padding: 6px 0px;
   border-radius: 15px;
   text-align: center;
-  font-size: 12px;
+  font-size: 1px;
   line-height: 1.42857;
-}
+} */
 
 
 /* h1 {
