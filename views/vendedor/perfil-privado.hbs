@@ -1,6 +1,6 @@
 <div class="d-flex flex-row mt-3">
   {{!-- contenedor mensajes --}}
-  <div class ="d-flex flex-column justify-content-start flex-wrap">
+  <div class ="d-flex flex-column justify-content-start flex-wrap ml-3">
   {{#each todosLosMensajes}}
     <div class=" card shadow-lg mt-3 p-3 pb-0 bg-white rounded" style="width: 16rem;">
           <h2 class="mb-4">{{this.producto.nombre}}</h2>
@@ -41,11 +41,9 @@
       {{/each}}
   </div>
   
-    <div class="d-flex flex-column pr-3 boton-añadir">
-        <a href="/product/create-product">
-        <button type="button" class="btn btn-success btn-circle btn-xl">
-        <i class="fa fa-link"></i>Añadir
-        </button>
+    <div class="d-flex flex-column mr-7">
+        <a  class=" boton-añadir" href="/product/create-product">
+        <img src="/images/Green-Add-Button-PNG-HD.png" alt="mas" width="100px">
         </a>
    </div>
 </div>
